@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: Cheniere Energy API
+  description: >-
+    Cheniere Energy is a leading LNG producer and exporter. This is a
+    placeholder specification as Cheniere Energy does not currently publish
+    a public developer API.
+  version: 1.0.0
+  contact:
+    name: Cheniere Energy
+    url: https://www.cheniere.com
+servers:
+  - url: https://www.cheniere.com
+    description: Cheniere Energy Website
+paths: {}
