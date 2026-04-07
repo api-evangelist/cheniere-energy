@@ -1,16 +1,14 @@
 aid: cheniere-energy
-url: 
-  https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
 apis:
   - aid: cheniere-energy:website
     name: Cheniere Energy Website
     tags:
-      - LNG
       - Energy
-      - Natural Gas
       - Export
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - LNG
+      - Natural Gas
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://www.cheniere.com
     humanURL: https://www.cheniere.com
     properties:
