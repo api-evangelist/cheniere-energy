@@ -1,5 +1,6 @@
 aid: cheniere-energy
-url: https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
 apis:
   - aid: cheniere-energy:website
     name: Cheniere Energy Website
@@ -8,7 +9,8 @@ apis:
       - Energy
       - Natural Gas
       - Export
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://www.cheniere.com
     humanURL: https://www.cheniere.com
     properties:
@@ -21,3 +23,6 @@ apis:
       gas (LNG) in the United States. The company does not currently offer a
       public developer API. Supplier and contractor integration is handled
       through their dedicated portal.
+description: >-
+  Cheniere Energy, Inc. is an international energy company headquartered in Houston,
+  Texas, and is the leading producer of liquefied natural gas in the….
