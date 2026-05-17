@@ -1,6 +1,6 @@
 aid: cheniere-energy
 name: Cheniere Energy
-x-type: company
+kind: company
 description: >-
   Cheniere Energy, Inc. is an international energy company headquartered in
   Houston, Texas, and is the leading producer and exporter of liquefied
