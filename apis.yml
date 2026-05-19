@@ -55,6 +55,8 @@ apis:
       - type: OpenAPI
         url: openapi/cheniere.yml
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/cheniere-energy-inc
   - type: Website
     url: https://www.cheniere.com
   - type: SupplierPortal
