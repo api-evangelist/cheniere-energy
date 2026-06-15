@@ -1,0 +1,20 @@
+{
+  "item": [],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.cheniere.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3bb62d96-dba2-40a6-b4ee-d345a5c5ab89",
+    "name": "Cheniere Energy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cheniere Energy is a leading LNG producer and exporter. This is a placeholder specification as Cheniere Energy does not currently publish a public developer API.\n\nContact Support:\n Name: Cheniere Energy",
+      "type": "text/plain"
+    }
+  }
+}
