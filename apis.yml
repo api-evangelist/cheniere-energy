@@ -14,7 +14,7 @@ description: >-
 type: Index
 position: Consuming
 access: 3rd-Party
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
 tags:
@@ -39,7 +39,7 @@ apis:
       natural gas (LNG) in the United States. The company does not
       currently offer a public developer API. Supplier and contractor
       integration is handled through a dedicated portal.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://www.cheniere.com
     baseURL: https://www.cheniere.com
     tags:
