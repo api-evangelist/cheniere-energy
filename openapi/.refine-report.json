@@ -1,0 +1,14 @@
+{
+  "provider": "cheniere-energy",
+  "sources": [
+    "cheniere.yml"
+  ],
+  "outputs": [],
+  "archived": [
+    "archived cheniere.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
