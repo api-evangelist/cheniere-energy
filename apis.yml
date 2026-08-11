@@ -65,7 +65,7 @@ apis:
       - type: SupplierPortal
         url: https://www.cheniere.com/about/resources/suppliers-and-contractors
       - type: OpenAPI
-        url: openapi/cheniere.yml
+        url: openapi/_original/cheniere.yml
 common:
   - type: DomainSecurity
     url: security/cheniere-energy-domain-security.yml
