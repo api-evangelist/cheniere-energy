@@ -42,7 +42,7 @@ tags:
   - Texas
 created: '2026-03-21'
 modified: '2026-04-23'
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 apis:
   - aid: cheniere-energy:website
     name: Cheniere Energy Website
