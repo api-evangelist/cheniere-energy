@@ -1,0 +1,55 @@
+specification: API Commons Packages
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: searched
+source: >-
+  Registry searches on 2026-09-06 against npm, PyPI, RubyGems, crates.io and NuGet, plus a check
+  for a Cheniere GitHub organization and a full read of www.cheniere.com.
+package_count: 0
+packages: []
+note: >-
+  Cheniere publishes no client library in any registry, and no first-party source repository
+  exists to derive a candidate from. This is consistent with the rest of the profile: the company
+  runs a public API but has no developer program wrapped around it.
+searched:
+  - registry: npm
+    query: cheniere
+    result_count: 0
+    url: https://registry.npmjs.org/-/v1/search?text=cheniere
+    status: 200
+  - registry: pypi
+    query: cheniere
+    result_count: 0
+    url: https://pypi.org/pypi/cheniere/json
+    status: 404
+  - registry: rubygems
+    query: cheniere
+    result_count: 0
+    url: https://rubygems.org/api/v1/search.json?query=cheniere
+    status: 200
+  - registry: crates.io
+    query: cheniere
+    result_count: 0
+    url: https://crates.io/api/v1/crates?q=cheniere
+    status: 200
+  - registry: nuget
+    query: cheniere
+    result_count: 0
+    url: https://azuresearch-usnc.nuget.org/query?q=cheniere
+    status: 200
+    note: >-
+      Checked despite the absence of a developer program because the API itself is ASP.NET Web
+      API; no Cheniere-published package exists.
+  - registry: github
+    query: cheniere-energy
+    result_count: 0
+    url: https://github.com/cheniere-energy
+    status: 404
+    note: >-
+      github.com/cheniere resolves (200) but is an unrelated personal account named "Cheniere
+      (Flow)", not the company. Not treated as first-party.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

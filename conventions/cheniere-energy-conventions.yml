@@ -1,0 +1,187 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: probed
+source: >-
+  Derived from the derived OpenAPI in openapi/cheniere-energy-lng-connection.yml and from the
+  live responses and headers captured from https://lngconnectionapi.cheniere.com on 2026-09-06.
+  Cheniere publishes no developer documentation, so nothing here comes from a docs page.
+summary: >-
+  A read-only ASP.NET Web API 2 surface with almost no cross-cutting semantics. Everything an
+  agent needs is in the path and the query string; there is no auth, no pagination, no
+  versioning, no rate-limit signal and no request id. The conventions that DO exist are the
+  NAESB WGQ data conventions inside the payloads, not HTTP conventions around them.
+
+auth:
+  style: none
+  detail: >-
+    No credential of any kind. See authentication/cheniere-energy-authentication.yml. CORS is
+    restricted to the single origin https://lngconnection.cheniere.com, so browser callers on
+    other origins are blocked; server-side and agent callers are not.
+
+idempotency:
+  coverage: na
+  detail: >-
+    Not applicable — there is no business write surface. All 32 data operations are GET. The three
+    non-GET operations are a client-side error sink (/api/Logger/Exceptions) and two render-only
+    exports that post back a result set the caller already holds
+    (/api/Document/Export, /api/IndexOfCustomers/ExportToExcel). None creates or mutates provider
+    state, so there is nothing a replayed request could double-fire.
+  header: null
+  scope: []
+
+reversibility:
+  grade: na
+  detail: >-
+    Not applicable. The API exposes no operation that changes provider-side state, so there is no
+    action for an agent to take back and no reversal window to state. Reversibility, dry-run and
+    idempotency are all `na` for this provider for the same reason: it is a read-only regulatory
+    publication surface.
+  write_surfaces: []
+
+dry_run_mode:
+  supported: na
+  detail: Not applicable — read-only surface.
+
+pagination:
+  style: none
+  detail: >-
+    No page, offset, limit, cursor or continuation parameter exists on any endpoint, and no
+    response carries a total, a page count or a next link. Callers bound the result set with a
+    date range (beginDate/endDate) or a period/quarter selector instead.
+  windowing:
+    - >-
+      Dated report endpoints take beginDate and endDate as gas days. Both YYYY-MM-DD and M/D/YYYY
+      parse. The response echoes the range back as `beginDate`/`endDate` in M/D/YYYY.
+    - >-
+      /api/PostedImbalances/Get and /api/IndexOfCustomers/Get are keyed to a period or quarter
+      start that must first be read from /api/PostedImbalances/GetPeriods or
+      /api/IndexOfCustomers/Quarter respectively. Do not construct these values — the enumeration
+      endpoints are the authority for which windows exist.
+  guidance: >-
+    Chunk by gas day. There is no documented ceiling on a date range, and no way to detect a
+    truncated result, so a wide range is a silent-loss risk.
+
+response_envelope:
+  detail: >-
+    Two shapes coexist, with no signal in the request telling you which you will get.
+  shapes:
+    - name: report envelope
+      shape: '{ "report": [ ... ], "beginDate": "M/D/YYYY", "endDate": "M/D/YYYY" }'
+      used_by:
+        - getFirmTransactionalReport
+        - getInterruptibleTransactionalReport
+        - getCapacityReleaseReport
+        - getGasQuality
+        - getDailyComingledGasQuality
+        - getMainlineGasQuality
+        - getOperationallyAvailableCapacity
+      note: getOperationallyAvailableCapacity omits `endDate`; it is a single-gas-day query.
+    - name: bare array
+      shape: '[ { ... } ]'
+      used_by:
+        - getCycles
+        - getCapacityLocations
+        - getGasQualityLocations
+        - getUnsubscribedCapacity
+        - getLocationList
+        - getStations
+        - getActiveSummaryNotices
+        - getInformationalContacts
+        - getIndexOfCustomers
+        - listImbalancePeriods
+        - listIndexOfCustomersQuarters
+        - getPostedImbalances
+        - getDocumentsByPageId
+    - name: bare object
+      shape: '{ "pages": [ ... ], "companies": [ ... ] }'
+      used_by:
+        - getPages
+    - name: bare null
+      shape: 'null'
+      used_by:
+        - getLinkByPageId
+        - getLegendByMetaId
+        - getReportFooterByMetaId
+      note: >-
+        A 200 with a literal `null` body means "nothing attached", not an error. Clients must
+        handle null, not just an empty array.
+
+field_naming:
+  detail: >-
+    THE SINGLE BIGGEST TRAP IN THIS API. Field casing is inconsistent between endpoints and, worse,
+    inconsistent WITHIN a field name. The NAESB element names are serialized with a mangled camel
+    casing that lowercases the first character of each underscore-delimited token but keeps the
+    rest uppercase — so TSP_NO becomes `tsP_NO`, LOC_ID becomes `loC_ID`, EFF_DT_FROM becomes
+    `efF_DT_FROM`, CO2_PCT becomes `c02_PCT` and DUNS_NUM becomes `dunS_NUM`. Other endpoints use
+    ordinary camelCase (`noticeId`, `postDateTime`, `contractHolderName`, `tspDuns`). The same
+    logical field is spelled differently depending on which endpoint returned it: the TSP
+    identifier is `tsP_NO` in the unsubscribed-capacity rows, `tspNo` in the transactional rows
+    and `companyId` in the station rows.
+  guidance: >-
+    Normalize on ingest with a case-insensitive, underscore-stripping key map. Never match field
+    names literally across endpoints.
+
+identifiers:
+  tsp:
+    detail: >-
+      The `tspNo` query parameter selects the pipeline. Two values carry data: 200 = Cheniere
+      Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506) and 400 = Cheniere Corpus
+      Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 are routable and return zero rows.
+      One endpoint names the same parameter `companyId` (getActiveSummaryNotices).
+  location:
+    detail: >-
+      Location ids are opaque strings, mostly of the form CT<6 digits> or CC<digits>, with some
+      free-form ids (e.g. BRGJB). Always read them from getCapacityLocations, getGasQualityLocations
+      or getLocationList; never construct one.
+  cycle:
+    detail: >-
+      cycleId is a NAESB nomination cycle from getCycles: 1 Timely, 10 Evening, 132 Intraday 1,
+      148 Intraday 2, 166 Intraday 3. The values are not sequential; read them, do not assume them.
+
+dates_and_units:
+  detail: >-
+    Request dates accept YYYY-MM-DD or M/D/YYYY. Response dates are ISO 8601 local date-times with
+    no timezone offset (e.g. "2026-09-01T09:05:02") — the gas-day convention applies and the
+    offset is not stated in the payload. Quantities are in the unit named by MEAS_BASIS, observed
+    as "BZ" = MMBtu. Gas-quality mole percentages are percentages, heating value is Btu/scf, and
+    Wobbe index is reported alongside.
+
+request_id_tracing:
+  supported: false
+  detail: >-
+    No X-Request-Id, X-Correlation-Id, traceparent or equivalent on any response. A 500 cannot be
+    correlated to anything the provider could look up.
+
+rate_limit_signaling:
+  supported: false
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header appears on any response, and no 429 was
+    observed. See rate-limits/cheniere-energy-rate-limits.yml.
+
+caching:
+  detail: >-
+    Every response is explicitly uncacheable: `Cache-Control: no-cache`, `Pragma: no-cache`,
+    `Expires: -1`. No ETag and no Last-Modified, so conditional requests are impossible and every
+    poll is a full transfer. For a dataset whose posting cadence is fixed by regulation, that is
+    the most expensive possible arrangement for a frequent consumer.
+
+session:
+  detail: >-
+    Each response sets an HttpOnly, Secure `LNGConnection` cookie for load-balancer affinity. It
+    is not a credential and requests without it succeed.
+
+error_envelope:
+  detail: >-
+    See errors/cheniere-energy-problem-types.yml. The ASP.NET single-`message` object, not
+    RFC 9457 problem+json.
+
+cross_links:
+  errors: errors/cheniere-energy-problem-types.yml
+  lifecycle: lifecycle/cheniere-energy-lifecycle.yml
+  authentication: authentication/cheniere-energy-authentication.yml
+  rate_limits: rate-limits/cheniere-energy-rate-limits.yml
+  conformance: conformance/cheniere-energy-conformance.yml
+  data_model: data-model/cheniere-energy-data-model.yml

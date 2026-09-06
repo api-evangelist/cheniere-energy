@@ -1,0 +1,73 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: probed
+source: >-
+  Probes of https://lngconnectionapi.cheniere.com and a full read of www.cheniere.com
+  (36 URLs, the complete sitemap) on 2026-09-06.
+summary: >-
+  Cheniere runs a live public API with no lifecycle apparatus around it at all. There is no
+  version in the path or in a header, no deprecation policy, no changelog, no status page and
+  no SLA. The API is an implementation detail of a regulatory posting site; the regulator
+  governs the DATA's availability, and nothing governs the INTERFACE's stability.
+versioning:
+  scheme: none
+  in_path: false
+  in_header: false
+  detail: >-
+    Paths are /api/<Controller>/<Action> with no version segment. No Accept-Version,
+    X-API-Version or similar request header is honoured, and no version appears in any response
+    header. The only version-like signal is the content-hash in the client bundle filename
+    (app.c8746b4fbffdfedeb14b.js), which versions the client, not the API.
+  implication: >-
+    A breaking change to a field name or an envelope shape would reach every caller at once with
+    no negotiation path. Consumers should pin nothing and validate defensively.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    No deprecation policy exists. No response carried a Sunset or Deprecation header. There is
+    no notice channel for interface changes — the /api/Notice endpoints carry OPERATIONAL notices
+    about the pipelines (invoices, maintenance, capacity), not API change notices.
+  observed_decay:
+    - operationId: getCapacityReleaseReport
+      detail: >-
+        Broken as shipped. The provider's own client calls
+        /api/Transactional/GetCapacityRelease?tspNo=<n>, which returns 404; the dated form returns
+        500. Capacity release is a FERC-required posting class, so this is a live gap rather than
+        a retired endpoint — but nothing in the API says so.
+      status: [404, 500]
+    - operationId: getWeatherLocations
+      detail: Returns 500 deterministically for tspNo 200. No deprecation signal, just a fault.
+      status: 500
+    - detail: >-
+        tspNo 600 (Midship) and 800 (Gregory Connector) are routable in the client and return 200
+        with zero rows. Cheniere sold its interest in Midship Pipeline; the route is a client
+        remnant. Nothing in the API marks these identifiers as retired.
+      status: 200
+sla:
+  published: false
+  detail: No service-level agreement, uptime commitment or support commitment is published for this API.
+status_page:
+  exists: false
+  detail: >-
+    No status page on any Cheniere host. Searched the full www.cheniere.com sitemap (36 URLs) and
+    probed the API and console hosts; there is no status, uptime or incident surface. No
+    StatusPage pointer is emitted in apis.yml as a result.
+changelog:
+  exists: false
+  detail: >-
+    No API changelog. The provider publishes operational notices per pipeline via
+    /api/Notice/GetActiveSummaryNotices, which is regulatory operational communication, not a
+    record of interface change.
+data_freshness:
+  detail: >-
+    The DATA has a hard cadence even though the interface has no policy: capacity postings carry a
+    POSTING_DT_TIME and turn over per nomination cycle, transactional reports carry a
+    postDateTime, gas quality is per gas day, imbalances are monthly (three periods were
+    available) and the Index of Customers is quarterly (24 quarters of history available).
+    That cadence is set by FERC 18 CFR 284.13, not by Cheniere.

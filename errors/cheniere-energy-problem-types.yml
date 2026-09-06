@@ -1,0 +1,78 @@
+specification: API Commons Error Catalog
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: probed
+source: >-
+  Error responses observed directly from https://lngconnectionapi.cheniere.com on 2026-09-06.
+  Cheniere publishes no error reference, so every entry below was produced by a real request.
+format: aspnet-webapi
+format_note: >-
+  Not RFC 9457. The envelope is the stock ASP.NET Web API shape — a JSON object with a single
+  `message` string, served as application/json rather than application/problem+json. There is no
+  machine-readable error code, so a client cannot branch on anything but the HTTP status.
+envelope:
+  media_type: application/json
+  fields:
+    - name: message
+      type: string
+      description: Human-readable English sentence. Free text; not a stable identifier.
+problem_types:
+  - status: 400
+    title: The request is invalid
+    message: 'The request is invalid.'
+    meaning: >-
+      Model binding failed — a required query parameter was absent or could not be coerced to its
+      type. The message does not name the offending parameter.
+    remediation: >-
+      Supply every parameter the operation declares, with a parsable value. Empty strings are not
+      accepted where an integer is expected.
+    observed:
+      url: https://lngconnectionapi.cheniere.com/api/Notice/FilterNotices?tspNo=200&pageId=10&noticeIdFrom=&noticeIdTo=&filter=&fromDate=2026-08-01&toDate=2026-09-06
+      operationId: filterNotices
+  - status: 404
+    title: No matching HTTP resource
+    message: "No HTTP resource was found that matches the request URI '<uri>'."
+    meaning: >-
+      Routing failed. The path is unknown, or the supplied query parameters do not satisfy any
+      route on that controller action. The echoed URI is the only diagnostic.
+    remediation: Check the path spelling and the full parameter set for the operation.
+    observed:
+      url: https://lngconnectionapi.cheniere.com/api/Transactional/GetCapacityRelease?tspNo=200
+      operationId: getCapacityReleaseReport
+      note: >-
+        The provider's own client calls this exact one-parameter form. It 404s, so the client path
+        is broken as shipped.
+  - status: 500
+    title: An error has occurred
+    message: 'An error has occurred.'
+    meaning: >-
+      Unhandled server-side fault. The message is constant and carries no correlation id, request
+      id or trace header, so a caller has nothing to quote in a support request.
+    remediation: >-
+      Retry; if it persists the operation is broken server-side and only the pipeline's customer
+      service contact can act on it. Two operations returned this deterministically when probed.
+    observed:
+      - url: https://lngconnectionapi.cheniere.com/api/Weather/GetWeatherLocations?tspNo=200
+        operationId: getWeatherLocations
+      - url: https://lngconnectionapi.cheniere.com/api/Transactional/GetCapacityRelease?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        operationId: getCapacityReleaseReport
+  - status: 403
+    title: Forbidden
+    meaning: >-
+      Returned by the API host root, which serves an IIS directory-listing denial rather than a
+      landing page or a spec. Not an authentication signal.
+    observed:
+      url: https://lngconnectionapi.cheniere.com/
+gaps:
+  - >-
+    No stable error codes. Every failure is distinguishable only by HTTP status and an English
+    sentence, both of which can change without notice.
+  - >-
+    No request or correlation id in any response header, so a 500 cannot be reported to the
+    provider with anything a support engineer could look up.
+  - >-
+    An empty result and a working endpoint are reported identically to a partially broken one:
+    /api/Mainline/GetMainline and /api/PostedImbalances/Get both returned 200 with zero rows,
+    which a caller cannot distinguish from "no data exists for this window".

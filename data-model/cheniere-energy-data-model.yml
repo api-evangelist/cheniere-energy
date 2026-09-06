@@ -1,0 +1,203 @@
+specification: API Commons Data Model
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: derived
+source: >-
+  Derived from the schemas and id-reference fields in
+  openapi/cheniere-energy-lng-connection.yml, which were read from live responses on 2026-09-06.
+summary: >-
+  The graph is a star around the transportation service provider (TSP) and its locations. Almost
+  every record carries a tspNo and most carry a location id; there are no nested objects and no
+  hypermedia links, so a consumer joins on identifier values by hand.
+identifier_domains:
+  - name: tspNo
+    description: >-
+      Transportation service provider. The root key of the whole model. 200 = Cheniere Creole
+      Trail Pipeline, L.P.; 400 = Cheniere Corpus Christi Pipeline, L.P.
+    also_known_as: [tsP_NO, companyId, tsp]
+    warning: >-
+      Spelled three different ways depending on the endpoint. `companyId` on notices and stations,
+      `tsP_NO` on NAESB-shaped rows, `tspNo` on transactional rows.
+  - name: locationId
+    description: Receipt or delivery point. Opaque string, commonly CT###### or CC######.
+    also_known_as: [loC_ID, loc, locId]
+    authority: getLocationList, getCapacityLocations, getGasQualityLocations
+  - name: cycleId
+    description: NAESB nomination cycle. Non-sequential integers (1, 10, 132, 148, 166).
+    authority: getCycles
+  - name: dunsNumber
+    description: >-
+      Dun & Bradstreet number identifying a party (pipeline, shipper, upstream/downstream
+      operator). The NAESB WGQ party-identification convention.
+    also_known_as: [tsP_DUNS_NO, dunS_NUM, dunS_NO, tspDuns, shippeR_ID]
+  - name: fercCid
+    description: FERC company identifier (e.g. C001506 for Creole Trail).
+    also_known_as: [tsP_FERC_CID, pipelinE_ID_CD]
+  - name: pageId
+    description: Node in the posting navigation tree; scopes notices and documents.
+    authority: getPages
+  - name: metaId
+    description: Report-type identifier; scopes legends and footers.
+  - name: noticeId
+    description: Operational notice.
+  - name: documentId
+    description: Posted document file.
+entities:
+  - name: TransportationServiceProvider
+    schema: PageIndex.companies
+    description: A Cheniere interstate pipeline. The root of the graph.
+    key: tspNo
+    relationships:
+      - has_many: Location
+        via: tspNo
+      - has_many: Station
+        via: companyId
+      - has_many: NoticeSummary
+        via: companyId
+      - has_many: TransactionalReportRow
+        via: tspNo
+      - has_many: IndexOfCustomersEntry
+        via: tspNo
+      - has_many: InformationalContact
+        via: companyId
+  - name: Location
+    schema: LocationDetail
+    description: >-
+      A point on the system. The master record carries FERC CID, DUNS, zone, county, state, flow
+      direction, active/inactive status and the upstream/downstream party.
+    key: locationId
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: tsP_NO
+    relationships:
+      - has_many: OperationallyAvailableCapacity
+        via: loc
+      - has_many: UnsubscribedCapacity
+        via: loC_ID
+      - has_many: GasQualityReading
+        via: loC_ID
+      - has_many: TransactionalReportRow
+        via: locId
+      - has_one: Station
+        via: locationId
+        note: Only locations that are compressor or metering stations.
+  - name: Cycle
+    schema: Cycle
+    description: NAESB nomination cycle. Enumerated, not owned by any TSP.
+    key: cyclE_ID
+  - name: OperationallyAvailableCapacity
+    schema: OperationallyAvailableCapacity
+    description: >-
+      The FERC 284.13(d) posting. Grain is one row per TSP, gas day, nomination cycle and location.
+      Carries design capacity, operational capacity, scheduled quantity and quantity available.
+    belongs_to:
+      - entity: Location
+        via: loc
+      - entity: Cycle
+        via: cycle
+  - name: UnsubscribedCapacity
+    schema: UnsubscribedCapacity
+    description: Unsubscribed firm capacity. Grain is one row per TSP, gas day and location.
+    belongs_to:
+      - entity: Location
+        via: loC_ID
+  - name: GasQualityReading
+    schema: GasQualityReading
+    description: >-
+      Daily gas analysis at a location — heating value, Wobbe index, C1-C6+, N2 and CO2 mole
+      percentages. Grain is one row per location and gas day.
+    belongs_to:
+      - entity: Location
+        via: loC_ID
+  - name: ComingledGasQuality
+    schema: ComingledGasQuality
+    description: >-
+      System-wide comingled analysis. Grain is one row per TSP and gas day — no location, which is
+      the point: it is the blended stream.
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: companyId
+  - name: TransactionalReportRow
+    schema: TransactionalReportRow
+    description: >-
+      FERC 284.13(b) transactional reporting. Grain is one row per contract and location, so a
+      single contract fans out across every location it touches — ctrMDQ repeats while ctrLocMDQ
+      varies. Deduplicate on serviceRequesterContract before counting contracts.
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: tspNo
+      - entity: Location
+        via: locId
+      - entity: Shipper
+        via: contractHolderProp
+  - name: Shipper
+    schema: TransactionalReportRow.contractHolder*
+    description: >-
+      A contract counterparty. Not exposed as its own endpoint — it exists only as denormalized
+      fields inside transactional and Index of Customers rows. `affil` marks affiliation with the
+      TSP (observed "TSP" for Sabine Pass Liquefaction, an affiliate shipper on Creole Trail).
+    key: contractHolderProp
+    note: >-
+      The affiliate flag is the analytically interesting field: it is how a reader tells
+      third-party capacity from Cheniere moving its own gas.
+  - name: IndexOfCustomersEntry
+    schema: IndexOfCustomersEntry
+    description: >-
+      FERC 284.13(c) quarterly filing in NAESB row form — header.row1 pipeline header (indicator
+      H), header.row2 shipper detail (indicator D), header.row3 agent (indicator A), plus section
+      rollups. Grain is one entry per quarter per pipeline.
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: tsP_NO
+  - name: NoticeSummary
+    schema: NoticeSummary
+    description: An operational notice, classified critical or non-critical, scoped to a posting page.
+    key: noticeId
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: companyId
+      - entity: Page
+        via: pageId
+  - name: Page
+    schema: Page
+    description: Self-referencing navigation node; subPage recurses.
+    key: pageId
+    relationships:
+      - has_many: Page
+        via: subPage
+      - has_many: NoticeSummary
+        via: pageId
+      - has_many: DocumentGroup
+        via: pageId
+  - name: Station
+    schema: Station
+    description: A compressor or metering station rendered on the system map.
+    key: stationId
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: companyId
+      - entity: Location
+        via: locationId
+  - name: InformationalContact
+    schema: InformationalContact
+    description: >-
+      A published role contact (gas control, customer service, scheduling). Field names recorded;
+      values are not copied into this repository.
+    belongs_to:
+      - entity: TransportationServiceProvider
+        via: companyId
+join_notes:
+  - >-
+    There are no $ref links and no hypermedia. Every relationship above is an id-value join the
+    consumer must perform.
+  - >-
+    Join keys are case-mangled differently on each side (loC_ID vs locId vs loc). Normalize keys
+    before joining or the join silently returns nothing.
+  - >-
+    Location ids appear in capacity and gas-quality rows that are NOT always present in
+    getLocationList — the master list includes inactive points (loC_STATUS_CD "I") and the posting
+    endpoints return only points with activity in the window. Treat getLocationList as the
+    superset.
+render: null

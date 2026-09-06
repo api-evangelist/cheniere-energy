@@ -64,14 +64,14 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas, and is the leading producer and exporter of liquefied natural gas (LNG) in the United States. Cheniere operates the Sabine Pass LNG terminal in Louisiana and the Corpus Christi LNG terminal in Texas, providing full-service LNG solutions including liquefaction, vessel loading, and regasification to customers worldwide. Cheniere does not currently expose a public developer API; supplier and contractor integration is handled through a dedicated portal, and investors and customers are served through corporate, sustainability, and IR channels.
+Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas, and the leading producer and exporter of liquefied natural gas (LNG) in the United States, operating the Sabine Pass terminal in Louisiana and the Corpus Christi terminal in Texas. It also owns two FERC-regulated interstate natural gas pipelines, Cheniere Creole Trail Pipeline and Cheniere Corpus Christi Pipeline. Cheniere runs no developer program and publishes no API documentation, yet it does operate one public, unauthenticated JSON API: the LNG Connection informational-postings API at lngconnectionapi.cheniere.com, serving the pipeline capacity, transactional reporting, Index of Customers, gas quality, imbalance and notice postings that FERC 18 CFR 284.13 requires, in the NAESB Wholesale Gas Quadrant data model.
 
 **APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml)
 
 ## Scope
 
 - **Type:** Index
-- **Position:** Consuming
+- **Position:** Producing
 - **Access:** 3rd-Party
 
 ## Tags
@@ -79,10 +79,15 @@ Cheniere Energy, Inc. is an international energy company headquartered in Housto
 - Corpus Christi
 - Energy
 - Export
+- FERC
 - Houston
+- Informational Postings
 - LNG
 - Liquefaction
+- NAESB
 - Natural Gas
+- Open Data
+- Pipelines
 - Regasification
 - Sabine Pass
 - Texas
@@ -90,13 +95,13 @@ Cheniere Energy, Inc. is an international energy company headquartered in Housto
 ## Timestamps
 
 - **Created:** 2026-03-21
-- **Modified:** 2026-04-23
+- **Modified:** 2026-09-06
 
 ## APIs
 
 ### Cheniere Energy Website
 
-Cheniere Energy is a leading producer and exporter of liquefied natural gas (LNG) in the United States. The company does not currently offer a public developer API. Supplier and contractor integration is handled through a dedicated portal.
+Cheniere Energy's corporate website. It carries no developer documentation and no API reference; supplier and contractor integration is handled through a dedicated portal. The company's one public API is described in the separate LNG Connection entry.
 
 - **Human URL:** [https://www.cheniere.com](https://www.cheniere.com)
 - **Base URL:** `https://www.cheniere.com`
@@ -112,26 +117,80 @@ Cheniere Energy is a leading producer and exporter of liquefied natural gas (LNG
 
 - [Website](https://www.cheniere.com)
 - [Supplier Portal](https://www.cheniere.com/about/resources/suppliers-and-contractors)
-- [OpenAPI](openapi/cheniere.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cheniere.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cheniere.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Operations](https://www.cheniere.com/about/where-we-work)
+
+### Cheniere LNG Connection Pipeline Informational Postings API
+
+The public, unauthenticated JSON API behind Cheniere's LNG Connection site, which publishes the FERC-mandated informational postings for Cheniere Creole Trail Pipeline, L.P. (tspNo 200) and Cheniere Corpus Christi Pipeline, L.P. (tspNo 400). It serves operationally available and unsubscribed capacity by NAESB nomination cycle, firm and interruptible transactional reporting, the quarterly Index of Customers, daily and comingled gas quality, posted imbalances, operational notices, and the location, station and contact reference data. 35 operations, all data operations read-only, no credential of any kind. Cheniere publishes no OpenAPI and no documentation for it; the specification in this repository was derived by API Evangelist from the provider's own client bundle plus live anonymous probes on 2026-09-06 and is labelled as derived.
+
+- **Human URL:** [https://lngconnection.cheniere.com](https://lngconnection.cheniere.com)
+- **Base URL:** `https://lngconnectionapi.cheniere.com`
+
+#### Tags
+
+- Natural Gas
+- Pipelines
+- FERC
+- NAESB
+- Capacity
+- Gas Quality
+- Informational Postings
+- Open Data
+- Energy
+
+#### Properties
+
+- [OpenAPI](openapi/cheniere-energy-lng-connection.yml)
+- [Overlay](overlays/cheniere-energy-lng-connection-overlay.yaml)
+- [MCP Server](mcp/cheniere-energy-mcp.yml)
+- [Tool Crosswalk](mcp/cheniere-energy-tool-crosswalk.yml)
+- [Authentication](authentication/cheniere-energy-authentication.yml)
+- [Error Catalog](errors/cheniere-energy-problem-types.yml)
+- [Conventions](conventions/cheniere-energy-conventions.yml)
+- [Data Model](data-model/cheniere-energy-data-model.yml)
+- [Conformance](conformance/cheniere-energy-conformance.yml)
+- [Lifecycle](lifecycle/cheniere-energy-lifecycle.yml)
+- [Rate Limits](rate-limits/cheniere-energy-rate-limits.yml)
+- [Plans](plans/cheniere-energy-plans-pricing.yml)
+- [Agent Skills](skills/_index.yml)
+- [Website](https://lngconnection.cheniere.com)
 
 ## Common Properties
 
+- [Domain Security](security/cheniere-energy-domain-security.yml)
 - [LinkedIn](https://www.linkedin.com/company/cheniere-energy-inc)
 - [Website](https://www.cheniere.com)
 - [Supplier Portal](https://www.cheniere.com/about/resources/suppliers-and-contractors)
 - [Investor Relations](https://www.cheniere.com/investors)
-- [Sustainability](https://www.cheniere.com/sustainability)
-- [Newsroom](https://www.cheniere.com/news-events)
 - [Careers](https://www.cheniere.com/careers)
-- [Operations](https://www.cheniere.com/operations)
 - [Contact Us](https://www.cheniere.com/contact-us)
-- [Operations](undefined)
-- [Services](undefined)
-- [Use Cases](undefined)
+- **Operations:** Sabine Pass LNG Terminal, Corpus Christi LNG Terminal, Cheniere Marketing, Creole Trail Pipeline, Corpus Christi Pipeline
+- **Services:** LNG Liquefaction, LNG Vessel Loading, Regasification, Natural Gas Marketing, Long-Term LNG Sales and Purchase Agreements
+- **Use Cases:** International LNG Export, Long-Term LNG Supply Contracts, Spot LNG Cargo Sales, Energy Security, Natural Gas Liquefaction Services
+- [Sustainability](https://www.cheniere.com/our-responsibility)
+- [Newsroom](https://www.cheniere.com/newsroom)
+- [Operations](https://www.cheniere.com/about/where-we-work)
+- [OpenAPI](openapi/cheniere-energy-lng-connection.yml)
+- [Overlay](overlays/cheniere-energy-lng-connection-overlay.yaml)
+- [MCP Server](mcp/cheniere-energy-mcp.yml)
+- [Tool Crosswalk](mcp/cheniere-energy-tool-crosswalk.yml)
+- [Authentication](authentication/cheniere-energy-authentication.yml)
+- [Error Catalog](errors/cheniere-energy-problem-types.yml)
+- [Conventions](conventions/cheniere-energy-conventions.yml)
+- [Data Model](data-model/cheniere-energy-data-model.yml)
+- [Conformance](conformance/cheniere-energy-conformance.yml)
+- [Lifecycle](lifecycle/cheniere-energy-lifecycle.yml)
+- [Rate Limits](rate-limits/cheniere-energy-rate-limits.yml)
+- [Plans](plans/cheniere-energy-plans-pricing.yml)
+- [Packages](packages/cheniere-energy-packages.yml)
+- [Agent Skills](skills/_index.yml)
+- [llms.txt](llms/cheniere-energy-llms.txt)
+- [Privacy Policy](https://www.cheniere.com/about/resources/privacypolicy)
+- [Terms of Service](https://www.cheniere.com/about/resources/disclaimer)
+- [Investor Relations](https://cqpir.cheniere.com/)
+- [Support](https://www.cheniere.com/letstalk)
 
 ## Maintainers
 
-**FN:** Kin Lane
+**FN:** Kin Lane  
 **Email:** kin@apievangelist.com

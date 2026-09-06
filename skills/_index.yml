@@ -1,0 +1,39 @@
+specification: API Commons Agent Skills
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: generated
+source: >-
+  Authored by API Evangelist against the operationIds in
+  openapi/cheniere-energy-lng-connection.yml, every one of which was probed live on 2026-09-06.
+  Cheniere publishes no skills, no AGENTS.md and no developer documentation of any kind — searched
+  www.cheniere.com (full 36-URL sitemap), lngconnection.cheniere.com and
+  lngconnectionapi.cheniere.com.
+note: >-
+  Two skills covering the marquee flows an analyst actually runs against a FERC informational
+  postings surface: what capacity is available, and who holds it. Both are read-only; this API has
+  no write surface, so there is no skill that changes anything at Cheniere.
+skills:
+  - name: cheniere-check-available-capacity
+    file: cheniere-energy-check-available-capacity.md
+    description: >-
+      Resolve a pipeline, nomination cycle and location, then read operationally available and
+      unsubscribed capacity for a gas day.
+    operations:
+      - getPages
+      - getCycles
+      - getCapacityLocations
+      - getOperationallyAvailableCapacity
+      - getUnsubscribedCapacity
+  - name: cheniere-pull-transactional-reporting
+    file: cheniere-energy-pull-transactional-reporting.md
+    description: >-
+      Pull firm and interruptible transactional reporting plus the quarterly Index of Customers,
+      with the affiliate flag and the per-location contract fan-out handled correctly.
+    operations:
+      - getFirmTransactionalReport
+      - getInterruptibleTransactionalReport
+      - listIndexOfCustomersQuarters
+      - getIndexOfCustomers
+      - getActiveSummaryNotices

@@ -2,126 +2,233 @@ aid: cheniere-energy
 name: Cheniere Energy
 kind: company
 description: >-
-  Cheniere Energy, Inc. is an international energy company headquartered in
-  Houston, Texas, and is the leading producer and exporter of liquefied
-  natural gas (LNG) in the United States. Cheniere operates the Sabine Pass
-  LNG terminal in Louisiana and the Corpus Christi LNG terminal in Texas,
-  providing full-service LNG solutions including liquefaction, vessel
-  loading, and regasification to customers worldwide. Cheniere does not
-  currently expose a public developer API; supplier and contractor
-  integration is handled through a dedicated portal, and investors and
-  customers are served through corporate, sustainability, and IR channels.
+  Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas, and the
+  leading producer and exporter of liquefied natural gas (LNG) in the United States, operating the
+  Sabine Pass terminal in Louisiana and the Corpus Christi terminal in Texas. It also owns two FERC-regulated
+  interstate natural gas pipelines, Cheniere Creole Trail Pipeline and Cheniere Corpus Christi Pipeline.
+  Cheniere runs no developer program and publishes no API documentation, yet it does operate one public,
+  unauthenticated JSON API: the LNG Connection informational-postings API at lngconnectionapi.cheniere.com,
+  serving the pipeline capacity, transactional reporting, Index of Customers, gas quality, imbalance
+  and notice postings that FERC 18 CFR 284.13 requires, in the NAESB Wholesale Gas Quadrant data model.
 type: Index
 deliveryModel:
-  model: unknown
+  model: public-api
   open_source: false
   commercial: false
-  callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  callable_host: true
+  label: Public unauthenticated API published under regulatory mandate, not sold as a product
+  confidence: high
   source:
-  - none
-  generated: '2026-08-28'
-  method: derived
+  - probe
+  generated: '2026-09-06'
+  method: probed
+  note: >-
+    Established by live anonymous probes on 2026-09-06: https://lngconnectionapi.cheniere.com/api/Page/GetPages
+    returned HTTP 200 with real posting data and no credential. The host is callable, but nothing
+    about it is licensed or sold — it exists to satisfy FERC 18 CFR 284.13.
 accessModel:
-  pricing: freemium
-  onboarding: unknown
+  pricing: free
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Freemium
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free and open — no signup, no key
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
-position: Consuming
+  - probe
+  generated: '2026-09-06'
+  method: probed
+  note: >-
+    No signup, no API key, no OAuth and no pricing page anywhere in the estate. Nine of eleven endpoints
+    probed anonymously on 2026-09-06 returned HTTP 200; the two failures were server-side 500s, not
+    auth challenges.
+position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cheniere-energy.png
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml
 tags:
-  - Corpus Christi
-  - Energy
-  - Export
-  - Houston
-  - LNG
-  - Liquefaction
-  - Natural Gas
-  - Regasification
-  - Sabine Pass
-  - Texas
+- Corpus Christi
+- Energy
+- Export
+- FERC
+- Houston
+- Informational Postings
+- LNG
+- Liquefaction
+- NAESB
+- Natural Gas
+- Open Data
+- Pipelines
+- Regasification
+- Sabine Pass
+- Texas
 created: '2026-03-21'
-modified: '2026-04-23'
+modified: '2026-09-06'
 specificationVersion: '0.23'
 apis:
-  - aid: cheniere-energy:website
-    name: Cheniere Energy Website
-    description: >-
-      Cheniere Energy is a leading producer and exporter of liquefied
-      natural gas (LNG) in the United States. The company does not
-      currently offer a public developer API. Supplier and contractor
-      integration is handled through a dedicated portal.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.cheniere.com
-    baseURL: https://www.cheniere.com
-    tags:
-      - Energy
-      - Export
-      - LNG
-      - Natural Gas
-    properties:
-      - type: Website
-        url: https://www.cheniere.com
-      - type: SupplierPortal
-        url: https://www.cheniere.com/about/resources/suppliers-and-contractors
-      - type: OpenAPI
-        url: openapi/_original/cheniere.yml
-common:
-  - type: DomainSecurity
-    url: security/cheniere-energy-domain-security.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/cheniere-energy-inc
+- aid: cheniere-energy:website
+  name: Cheniere Energy Website
+  description: >-
+    Cheniere Energy's corporate website. It carries no developer documentation and no API reference;
+    supplier and contractor integration is handled through a dedicated portal. The company's one public
+    API is described in the separate LNG Connection entry.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Energy
+  - Export
+  - LNG
+  - Natural Gas
+  properties:
   - type: Website
     url: https://www.cheniere.com
   - type: SupplierPortal
     url: https://www.cheniere.com/about/resources/suppliers-and-contractors
-  - type: InvestorRelations
-    url: https://www.cheniere.com/investors
-  - type: Sustainability
-    url: https://www.cheniere.com/sustainability
-  - type: Newsroom
-    url: https://www.cheniere.com/news-events
-  - type: Careers
-    url: https://www.cheniere.com/careers
   - type: Operations
-    url: https://www.cheniere.com/operations
-  - type: ContactUs
-    url: https://www.cheniere.com/contact-us
-  - name: Operations
-    type: Operations
-    data:
-      - name: Sabine Pass LNG Terminal
-      - name: Corpus Christi LNG Terminal
-      - name: Cheniere Marketing
-      - name: Creole Trail Pipeline
-      - name: Corpus Christi Pipeline
-  - name: Services
-    type: Services
-    data:
-      - name: LNG Liquefaction
-      - name: LNG Vessel Loading
-      - name: Regasification
-      - name: Natural Gas Marketing
-      - name: Long-Term LNG Sales and Purchase Agreements
-  - name: UseCases
-    type: UseCases
-    data:
-      - name: International LNG Export
-      - name: Long-Term LNG Supply Contracts
-      - name: Spot LNG Cargo Sales
-      - name: Energy Security
-      - name: Natural Gas Liquefaction Services
+    url: https://www.cheniere.com/about/where-we-work
+- aid: cheniere-energy:lng-connection
+  name: Cheniere LNG Connection Pipeline Informational Postings API
+  description: >-
+    The public, unauthenticated JSON API behind Cheniere's LNG Connection site, which publishes the
+    FERC-mandated informational postings for Cheniere Creole Trail Pipeline, L.P. (tspNo 200) and
+    Cheniere Corpus Christi Pipeline, L.P. (tspNo 400). It serves operationally available and unsubscribed
+    capacity by NAESB nomination cycle, firm and interruptible transactional reporting, the quarterly
+    Index of Customers, daily and comingled gas quality, posted imbalances, operational notices, and
+    the location, station and contact reference data. 35 operations, all data operations read-only,
+    no credential of any kind. Cheniere publishes no OpenAPI and no documentation for it; the specification
+    in this repository was derived by API Evangelist from the provider's own client bundle plus live
+    anonymous probes on 2026-09-06 and is labelled as derived.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cheniere-energy.png
+  humanURL: https://lngconnection.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
+  tags:
+  - Natural Gas
+  - Pipelines
+  - FERC
+  - NAESB
+  - Capacity
+  - Gas Quality
+  - Informational Postings
+  - Open Data
+  - Energy
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-lng-connection.yml
+  - type: Overlay
+    url: overlays/cheniere-energy-lng-connection-overlay.yaml
+  - type: MCPServer
+    url: mcp/cheniere-energy-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+common:
+- type: DomainSecurity
+  url: security/cheniere-energy-domain-security.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cheniere-energy-inc
+- type: Website
+  url: https://www.cheniere.com
+- type: SupplierPortal
+  url: https://www.cheniere.com/about/resources/suppliers-and-contractors
+- type: InvestorRelations
+  url: https://www.cheniere.com/investors
+- type: Careers
+  url: https://www.cheniere.com/careers
+- type: ContactUs
+  url: https://www.cheniere.com/contact-us
+- name: Operations
+  type: Operations
+  data:
+  - name: Sabine Pass LNG Terminal
+  - name: Corpus Christi LNG Terminal
+  - name: Cheniere Marketing
+  - name: Creole Trail Pipeline
+  - name: Corpus Christi Pipeline
+- name: Services
+  type: Services
+  data:
+  - name: LNG Liquefaction
+  - name: LNG Vessel Loading
+  - name: Regasification
+  - name: Natural Gas Marketing
+  - name: Long-Term LNG Sales and Purchase Agreements
+- name: UseCases
+  type: UseCases
+  data:
+  - name: International LNG Export
+  - name: Long-Term LNG Supply Contracts
+  - name: Spot LNG Cargo Sales
+  - name: Energy Security
+  - name: Natural Gas Liquefaction Services
+- type: Sustainability
+  url: https://www.cheniere.com/our-responsibility
+- type: Newsroom
+  url: https://www.cheniere.com/newsroom
+- type: Operations
+  url: https://www.cheniere.com/about/where-we-work
+- type: OpenAPI
+  url: openapi/cheniere-energy-lng-connection.yml
+- type: Overlay
+  url: overlays/cheniere-energy-lng-connection-overlay.yaml
+- type: MCPServer
+  url: mcp/cheniere-energy-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/cheniere-energy-tool-crosswalk.yml
+- type: Authentication
+  url: authentication/cheniere-energy-authentication.yml
+- type: ErrorCatalog
+  url: errors/cheniere-energy-problem-types.yml
+- type: Conventions
+  url: conventions/cheniere-energy-conventions.yml
+- type: DataModel
+  url: data-model/cheniere-energy-data-model.yml
+- type: Conformance
+  url: conformance/cheniere-energy-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cheniere-energy-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/cheniere-energy-rate-limits.yml
+- type: Plans
+  url: plans/cheniere-energy-plans-pricing.yml
+- type: Packages
+  url: packages/cheniere-energy-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/cheniere-energy-llms.txt
+- type: PrivacyPolicy
+  url: https://www.cheniere.com/about/resources/privacypolicy
+- type: TermsOfService
+  url: https://www.cheniere.com/about/resources/disclaimer
+- type: InvestorRelations
+  url: https://cqpir.cheniere.com/
+- type: Support
+  url: https://www.cheniere.com/letstalk
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v3

@@ -1,0 +1,132 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: probed
+source: >-
+  Live anonymous responses from https://lngconnectionapi.cheniere.com captured 2026-09-06,
+  read against the FERC and NAESB requirements that govern interstate natural gas pipeline
+  informational postings.
+note: >-
+  Cheniere makes no published conformance claim anywhere — there is no developer portal, no
+  standards page and no compliance statement for this API. Every entry below is asserted from
+  the contract's own content, and every `conforms: false` is an honest negative, not a penalty.
+conformance:
+  - id: ferc-18-cfr-284.13
+    name: FERC 18 CFR 284.13 — Reporting and posting requirements for interstate pipelines
+    category: regulatory
+    conforms: true
+    evidence: >-
+      The API serves each posting class the rule enumerates, as a distinct endpoint. 284.13(b)
+      transactional reporting: /api/Transactional/GetFirm and /api/Transactional/GetInteruptible
+      return contract-level rows carrying contractHolderName, serviceRequesterContract,
+      contractBeginDate/contractEndDate, ctrMDQ, rateSchedule, rateCharged, maxTariffRate,
+      mktBasedRateInd, ngtdRateInd and an affiliate indicator. 284.13(c) Index of Customers:
+      /api/IndexOfCustomers/Get returns the quarterly filing in NAESB row form, with 24 quarters
+      of history listed by /api/IndexOfCustomers/Quarter. 284.13(d) capacity postings:
+      /api/Capacity/GetCapacity (operationally available) and /api/Capacity/GetUnsubscribed.
+    probed:
+      - url: https://lngconnectionapi.cheniere.com/api/Transactional/GetFirm?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+      - url: https://lngconnectionapi.cheniere.com/api/IndexOfCustomers/Get?firstDayOfQuarter=7/1/2026&tspNo=200
+        status: 200
+      - url: https://lngconnectionapi.cheniere.com/api/Capacity/GetCapacity?tspNo=200&beginDate=2026-09-05&cycleId=1&locationId=CT109413
+        status: 200
+
+  - id: naesb-wgq-informational-postings
+    name: NAESB Wholesale Gas Quadrant — Informational Postings / Capacity Release data model
+    category: domain-standard
+    domain_standard: true
+    conforms: true
+    evidence: >-
+      The payloads carry the NAESB WGQ data dictionary directly rather than a bespoke shape.
+      /api/Capacity/GetCycles returns exactly the five NAESB nomination cycles — Timely, Evening,
+      Intraday 1, Intraday 2, Intraday 3 — as the cycleId enumeration. Capacity rows use the NAESB
+      element names and code values: LOC_QTI "RPQ", LOC_PURP "M2", MEAS_BASIS "BZ" (MMBtu),
+      CAP_TYPE_DESC "Operationally available unscheduled capacity", DESIGN_OPER_CAP / OPER_CAP /
+      SCHED_QTY / QTY_AVAIL, and a FLOW_IND. Party identity is carried as a DUNS number
+      (TSP_DUNS_NO 800742780 for Creole Trail, 079841991 for Corpus Christi) alongside the FERC
+      company id (TSP_FERC_CID C001506), which is the NAESB WGQ party-identification convention.
+      The Index of Customers is returned in the NAESB header/detail row structure (row1 indicator
+      "H", row2 indicator "D", row3 indicator "A") rather than as a flat record.
+    significance: >-
+      A gas marketer, scheduler or trading-analytics vendor that already speaks NAESB WGQ can read
+      this API with no bespoke connector. That is the whole value of the signature: the field names
+      and code values are the ones their existing pipeline-data model already uses.
+    probed:
+      - url: https://lngconnectionapi.cheniere.com/api/Capacity/GetCycles
+        status: 200
+      - url: https://lngconnectionapi.cheniere.com/api/LocationDownload/Get?tspNo=200
+        status: 200
+      - url: https://lngconnectionapi.cheniere.com/api/IndexOfCustomers/Get?firstDayOfQuarter=7/1/2026&tspNo=200
+        status: 200
+
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    category: cross-cutting
+    conforms: false
+    evidence: >-
+      Errors return application/json with a single `message` string — {"message":"An error has
+      occurred."} on 500, {"message":"No HTTP resource was found that matches the request URI
+      '...'"} on 404, {"message":"The request is invalid."} on 400. This is the stock ASP.NET Web
+      API envelope: no `type`, `title`, `status`, `detail` or `instance` member, and the media type
+      is application/json, not application/problem+json.
+    probed:
+      - url: https://lngconnectionapi.cheniere.com/api/Weather/GetWeatherLocations?tspNo=200
+        status: 500
+
+  - id: oauth2
+    name: OAuth 2.0
+    category: cross-cutting
+    conforms: false
+    evidence: >-
+      No authorization server. /.well-known/oauth-authorization-server returns 404 on every
+      Cheniere host, and the API accepts anonymous requests.
+    probed:
+      - url: https://lngconnectionapi.cheniere.com/.well-known/oauth-authorization-server
+        status: 404
+
+  - id: oidc
+    name: OpenID Connect Discovery
+    category: cross-cutting
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on every Cheniere host.
+    probed:
+      - url: https://www.cheniere.com/.well-known/openid-configuration
+        status: 404
+
+  - id: pagination
+    name: Paginated collection responses
+    category: cross-cutting
+    conforms: false
+    evidence: >-
+      No collection endpoint offers a page, offset, limit or cursor parameter, and no response
+      carries a page count or next-page link. Result-set size is bounded only by the caller's
+      date range or quarter. Callers must window by gas day themselves.
+
+  - id: idempotency
+    name: Idempotency keys on writes
+    category: cross-cutting
+    conforms: false
+    na: true
+    evidence: >-
+      Not applicable. The API has no business write surface. The only non-GET operations are two
+      render-only exports (/api/Document/Export, /api/IndexOfCustomers/ExportToExcel) and a
+      client-side error sink (/api/Logger/Exceptions). There is no state an agent can create or
+      mutate, so there is nothing to make idempotent.
+
+  - id: openapi
+    name: Published OpenAPI description
+    category: cross-cutting
+    conforms: false
+    evidence: >-
+      The provider publishes no machine-readable description. /swagger, /swagger/index.html,
+      /swagger/v1/swagger.json, /openapi.json and /api-docs all return 404 on the API host. The
+      OpenAPI in this repository was derived by API Evangelist from the provider's own client
+      bundle plus live probes, and is labelled as such.
+    probed:
+      - url: https://lngconnectionapi.cheniere.com/swagger/v1/swagger.json
+        status: 404
+      - url: https://lngconnectionapi.cheniere.com/openapi.json
+        status: 404

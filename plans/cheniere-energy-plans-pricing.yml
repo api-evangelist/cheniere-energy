@@ -3,154 +3,40 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Cheniere Energy
 providerId: cheniere-energy
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Corpus Christi
-  - Energy
-  - Export
-  - Houston
-  - LNG
-  - Liquefaction
-  - Natural Gas
-  - Regasification
-  - Sabine Pass
-  - Texas
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: cheniere-energy-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Cheniere Energy API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Cheniere Energy Website
-  - id: cheniere-energy-pro
-    name: Professional
-    type: paid
-    description: Production tier for Cheniere Energy. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains:
-          - https://www.cheniere.com
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Cheniere Energy Website
-  - id: cheniere-energy-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Cheniere Energy. Includes dedicated capacity, contractual
-      SLAs, security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://www.cheniere.com
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Cheniere Energy Website
+generated: '2026-09-06'
+method: searched
+source: >-
+  Full read of www.cheniere.com on 2026-09-06 — the complete 36-URL sitemap, which contains no
+  pricing, plans, signup or developer page — plus live anonymous access to
+  https://lngconnectionapi.cheniere.com, which serves data without any commercial gate.
+supersedes: >-
+  This file replaces a 2026-05-04 bulk-sweep scaffold that asserted Free / Professional /
+  Enterprise API tiers with request quotas, overage pricing and SLA elements. Cheniere has never
+  sold API access and publishes no such tiers; the scaffold was fabricated by that sweep, not
+  harvested, and has been removed.
+plan_count: 0
+note: >-
+  There is no API pricing because there is no API product. The Cheniere LNG Connection
+  informational-postings API is free and unauthenticated because FERC 18 CFR 284.13 requires an
+  interstate pipeline to make these postings publicly available — it is regulatory publication,
+  not a commercial offering. There is no signup, no key, no quota and no paid tier, and there is
+  nothing for Cheniere to publish here.
+  Cheniere's actual commercial products — long-term LNG sale and purchase agreements, integrated
+  production marketing and spot cargoes — are negotiated bilaterally and are not sold, quoted or
+  provisioned through any API.
+plans: []
+commercial_context:
+  api_monetized: false
+  access: public-unauthenticated
+  driver: regulatory-publication
+  regulation: FERC 18 CFR 284.13
+evidence:
+  - url: https://www.cheniere.com/sitemap.xml
+    status: 200
+    note: 36 URLs, all corporate. No pricing, plans, developer, signup or API page.
+  - url: https://lngconnectionapi.cheniere.com/api/Page/GetPages
+    status: 200
+    note: Data served anonymously with no commercial gate of any kind.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

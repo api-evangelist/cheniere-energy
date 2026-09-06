@@ -1,0 +1,90 @@
+generated: '2026-09-06'
+method: probed
+source: >-
+  Anonymous HTTP probes of every host this record knows: the registrable domain and www,
+  the LNG Connection docs/console host, the LNG Connection API host named as the prod
+  baseUrl in the provider's own client bundle, and both investor-relations hosts linked
+  from www.cheniere.com.
+note: >-
+  Every probed path returned 404 on every host. Cheniere serves no /.well-known document
+  anywhere in its estate. No WellKnown or SecurityTxt pointer is emitted in apis.yml,
+  because this file records an absence, not a presence. The 404 bodies are the site's own
+  HTML error pages (www.cheniere.com and the IR hosts) or IIS error pages (the LNG
+  Connection hosts), not documents.
+hosts:
+  - host: www.cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+  - host: lngconnection.cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: lngconnectionapi.cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: lngir.cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: cqpir.cheniere.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404

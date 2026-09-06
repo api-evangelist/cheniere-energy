@@ -1,0 +1,71 @@
+# method: generated
+# source: API Evangelist annotations layered on openapi/cheniere-energy-lng-connection.yml
+# generated: '2026-09-06'
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Cheniere LNG Connection informational-postings API
+  version: 1.0.0
+  description: >-
+    Captures the annotations API Evangelist added on top of the bare endpoint surface read out of
+    Cheniere's own client bundle. Cheniere publishes no OpenAPI, so the base document
+    (openapi/cheniere-energy-lng-connection.yml) is itself derived; this overlay records which
+    parts of it are ADDED INTERPRETATION rather than observed fact, so the two can be told apart.
+    Everything targeted below is commentary — regulatory context, field-casing warnings, the
+    two broken operations, and the enumeration of TSP identifiers. None of it changes a path, a
+    parameter name or a response shape.
+extends: ../openapi/cheniere-energy-lng-connection.yml
+actions:
+  - target: $.info
+    description: >-
+      Provenance banner. Records that no provider-published spec exists, names the client bundle
+      the paths were read from, and states that response schemas came from live anonymous probes
+      on 2026-09-06.
+    update:
+      x-api-evangelist-note: >-
+        Derived description. Paths and parameter names are verbatim string literals from
+        https://lngconnection.cheniere.com/app.c8746b4fbffdfedeb14b.js; response schemas were read
+        from live anonymous responses captured 2026-09-06. Not published or endorsed by Cheniere.
+  - target: $.tags
+    description: >-
+      Tag grouping is ours. Cheniere's controllers are Capacity, GasQuality, DailyComingled,
+      Mainline, Transactional, IndexOfCustomers, PostedImbalances, Notice, Document,
+      DocumentManager, Station, LocationDownload, InformationContact, Weather, Legend, Footer,
+      Page and Logger. We collapsed those eighteen controllers into ten tags that follow the FERC
+      posting classes a reader actually asks for, rather than the server's class layout.
+  - target: $.paths..parameters[?(@.name == 'tspNo')]
+    description: >-
+      Added the TSP enumeration. The API declares no enum and returns no error for an unknown
+      tspNo — it returns 200 with zero rows — so the working values (200 Creole Trail, 400 Corpus
+      Christi) and the empty ones (600, 800) were established by probing, and are recorded on the
+      parameter so a consumer does not have to rediscover them.
+  - target: $.paths['/api/Transactional/GetCapacityRelease'].get
+    description: >-
+      Flagged as broken as shipped. The provider's own client calls this with tspNo alone (404);
+      the dated form returns 500. Capacity release is a FERC-required posting class, so this is
+      recorded as a live gap, not a retirement.
+    update:
+      x-api-evangelist-defect: >-
+        Non-functional on 2026-09-06. 404 on the single-parameter form the provider's own client
+        uses, 500 on the dated form.
+  - target: $.paths['/api/Weather/GetWeatherLocations'].get
+    description: Flagged as returning 500 deterministically for tspNo 200.
+    update:
+      x-api-evangelist-defect: Returns HTTP 500 with the generic error envelope. Observed 2026-09-06.
+  - target: $.paths['/api/Notice/FilterNotices'].get
+    description: >-
+      Recorded that the model binder rejects partial parameter sets with 400 "The request is
+      invalid.", which the error body does not explain.
+  - target: $.components.schemas
+    description: >-
+      Every schema description is ours. The API returns untyped JSON with no documentation, so the
+      regulatory meaning of each posting class (FERC 18 CFR 284.13(b)/(c)/(d)) and the NAESB WGQ
+      element semantics were attached by API Evangelist from the code values present in the
+      payloads.
+  - target: $.components.schemas.InformationalContact
+    description: >-
+      Field names only. Live contact values are deliberately not carried into the specification or
+      anywhere else in this repository.
+  - target: $.components.schemas.Error
+    description: >-
+      Added the explicit note that this is the ASP.NET Web API envelope and NOT RFC 9457, so a
+      consumer does not plan for problem+json members that will never arrive.

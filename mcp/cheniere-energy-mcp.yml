@@ -1,0 +1,123 @@
+specification: API Commons MCP
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: derived
+status: candidate
+source: >-
+  Derived from openapi/cheniere-energy-lng-connection.yml, which was itself derived from the
+  provider's client bundle and live probes. No Cheniere MCP server exists.
+search_result: >-
+  No official or community MCP server for Cheniere was found. Cheniere publishes no developer
+  program, no GitHub organization (github.com/cheniere-energy returns 404; github.com/cheniere is
+  an unrelated personal account) and no package on npm, PyPI, RubyGems, crates.io or NuGet.
+  /.well-known/ai-plugin.json returns 404 on every Cheniere host.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    Nobody ships an MCP server for this API. The tools below are a CANDIDATE list derived from the
+    REST operations — they describe what a server WOULD expose, not anything an agent can reach
+    today. No endpoint URL is asserted, because none exists.
+why_it_would_work: >-
+  This is an unusually good MCP candidate for a company with no developer program: the API is
+  public, needs no credential, is entirely read-only, and returns regulator-shaped data that an
+  analyst actually asks questions about. The blockers are the field-casing inconsistency and the
+  absence of pagination, both of which a server would normalize.
+tools:
+  - name: list_pipelines
+    description: List the transportation service providers served, with the posting page tree.
+    rest: [getPages]
+    inputSchema: {}
+  - name: list_nomination_cycles
+    description: List the NAESB nomination cycles (Timely, Evening, Intraday 1-3) used to query capacity.
+    rest: [getCycles]
+    inputSchema: {}
+  - name: list_capacity_locations
+    description: List capacity posting locations for a pipeline over a gas-day range.
+    rest: [getCapacityLocations]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+      endDate: string
+  - name: get_operationally_available_capacity
+    description: >-
+      Operationally available unscheduled capacity for one pipeline, gas day, nomination cycle and
+      location. The FERC 284.13(d) posting.
+    rest: [getOperationallyAvailableCapacity]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+      cycleId: integer
+      locationId: string
+  - name: get_unsubscribed_capacity
+    description: Unsubscribed firm capacity for a pipeline and gas day.
+    rest: [getUnsubscribedCapacity]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+  - name: get_gas_quality
+    description: Daily gas quality (heating value, Wobbe index, hydrocarbon and inert percentages) for a location.
+    rest: [getGasQuality, getGasQualityLocations]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+      endDate: string
+      locationId: string
+  - name: get_comingled_gas_quality
+    description: Daily comingled system-wide gas-quality analysis.
+    rest: [getDailyComingledGasQuality]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+      endDate: string
+  - name: get_transactional_report
+    description: >-
+      Firm or interruptible transactional reporting (FERC 284.13(b)) — contracts, shippers,
+      affiliate flags, rate charged vs maximum tariff rate, per-location MDQ.
+    rest: [getFirmTransactionalReport, getInterruptibleTransactionalReport]
+    inputSchema:
+      tspNo: integer
+      beginDate: string
+      endDate: string
+      service: string
+  - name: get_index_of_customers
+    description: Quarterly Index of Customers (FERC 284.13(c)) for a pipeline.
+    rest: [getIndexOfCustomers, listIndexOfCustomersQuarters]
+    inputSchema:
+      tspNo: integer
+      firstDayOfQuarter: string
+  - name: get_posted_imbalances
+    description: Posted imbalance report for a pipeline and monthly period.
+    rest: [getPostedImbalances, listImbalancePeriods]
+    inputSchema:
+      tspNo: integer
+      period: string
+  - name: list_notices
+    description: Active critical and non-critical operational notices for a pipeline.
+    rest: [getActiveSummaryNotices, getNoticeById]
+    inputSchema:
+      tspNo: integer
+      noticeId: integer
+  - name: get_location_reference
+    description: >-
+      Full location master list for a pipeline — FERC company id, DUNS, zone, county, state, flow
+      direction, status and upstream/downstream party.
+    rest: [getLocationList, getStations]
+    inputSchema:
+      tspNo: integer
+notes:
+  - >-
+    A server should normalize the mangled NAESB field casing (tsP_NO, loC_ID, efF_DT_FROM) to a
+    single convention before returning tool results, or every downstream agent re-learns the trap.
+  - >-
+    Two REST operations are excluded because they are broken as shipped: getCapacityReleaseReport
+    (404/500) and getWeatherLocations (500).
+  - >-
+    Excluded from tools by design: the two export endpoints and /api/Logger/Exceptions. They are
+    render and telemetry sinks, not data access.

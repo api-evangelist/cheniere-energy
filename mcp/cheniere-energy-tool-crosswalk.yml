@@ -1,0 +1,133 @@
+specification: API Commons Tool Crosswalk
+specificationVersion: '0.1'
+provider: Cheniere Energy
+providerId: cheniere-energy
+generated: '2026-09-06'
+method: derived
+source: >-
+  Binds the candidate MCP tools in mcp/cheniere-energy-mcp.yml to the operationIds in
+  openapi/cheniere-energy-lng-connection.yml. Both sides are derived, so this crosswalk is a
+  design document, not a map of a live agent surface.
+surfaces:
+  openapi:
+    url: openapi/cheniere-energy-lng-connection.yml
+    gated: false
+    note: Derived by API Evangelist; the provider publishes no spec.
+  mcp:
+    url: null
+    gated: false
+    note: No MCP server exists. deployment.mode is `none`.
+  graphql:
+    url: null
+    note: No GraphQL surface.
+crosswalk:
+  - tool: list_pipelines
+    category: discovery
+    rest: [getPages]
+    binding: one-to-one
+    confidence: high
+  - tool: list_nomination_cycles
+    category: reference
+    rest: [getCycles]
+    binding: one-to-one
+    confidence: high
+  - tool: list_capacity_locations
+    category: reference
+    rest: [getCapacityLocations]
+    binding: one-to-one
+    confidence: high
+  - tool: get_operationally_available_capacity
+    category: capacity
+    rest: [getOperationallyAvailableCapacity]
+    binding: one-to-one
+    confidence: high
+  - tool: get_unsubscribed_capacity
+    category: capacity
+    rest: [getUnsubscribedCapacity]
+    binding: one-to-one
+    confidence: high
+  - tool: get_gas_quality
+    category: gas-quality
+    rest: [getGasQuality, getGasQualityLocations]
+    binding: composite
+    confidence: high
+    note: >-
+      locationId must first be resolved from getGasQualityLocations; a tool that takes a location
+      NAME would have to fold both calls.
+  - tool: get_comingled_gas_quality
+    category: gas-quality
+    rest: [getDailyComingledGasQuality]
+    binding: one-to-one
+    confidence: high
+  - tool: get_transactional_report
+    category: transactional-reporting
+    rest: [getFirmTransactionalReport, getInterruptibleTransactionalReport]
+    binding: one-to-many
+    confidence: high
+    note: A single `service` argument (firm|interruptible) selects between two near-identical operations.
+  - tool: get_index_of_customers
+    category: index-of-customers
+    rest: [getIndexOfCustomers, listIndexOfCustomersQuarters]
+    binding: composite
+    confidence: high
+    note: firstDayOfQuarter must be read from listIndexOfCustomersQuarters; it cannot be constructed reliably.
+  - tool: get_posted_imbalances
+    category: imbalances
+    rest: [getPostedImbalances, listImbalancePeriods]
+    binding: composite
+    confidence: high
+  - tool: list_notices
+    category: notices
+    rest: [getActiveSummaryNotices, getNoticeById]
+    binding: composite
+    confidence: high
+  - tool: get_location_reference
+    category: reference
+    rest: [getLocationList, getStations]
+    binding: composite
+    confidence: medium
+    note: Two different reference views of the same system; a tool would return them side by side.
+mcp_only: []
+rest_only:
+  - operationId: getCapacityReleaseReport
+    reason: Broken as shipped — 404 on the client's own call form, 500 on the dated form. Not worth exposing as a tool.
+  - operationId: getWeatherLocations
+    reason: Returns 500 deterministically.
+  - operationId: getMainlineGasQuality
+    reason: Served but returned zero rows for both active pipelines when probed.
+  - operationId: filterNotices
+    reason: Superseded by list_notices; its model binder rejects partial parameter sets.
+  - operationId: getNoticesByPageId
+    reason: Page-scoped variant; folded into list_notices.
+  - operationId: downloadNotice
+    reason: File stream, not structured data.
+  - operationId: getDocumentsByPageId
+    reason: Document attachment listing; not a data query.
+  - operationId: getEmbeddedDocumentsByPageId
+    reason: Document attachment listing; not a data query.
+  - operationId: downloadDocumentFileById
+    reason: File stream, not structured data.
+  - operationId: exportGridToDocument
+    reason: Render-only export of a result set the caller already holds.
+  - operationId: exportIndexOfCustomersToExcel
+    reason: Render-only export of a result set the caller already holds.
+  - operationId: logClientException
+    reason: Client telemetry sink. Never expose a write-shaped sink as an agent tool.
+  - operationId: getLinkByPageId
+    reason: UI chrome.
+  - operationId: getLegendByMetaId
+    reason: UI chrome.
+  - operationId: getReportFooterByMetaId
+    reason: UI chrome.
+  - operationId: getInformationalContacts
+    reason: >-
+      Deliberately excluded. Returns published contact details; not exposed as an agent tool to
+      avoid turning a regulatory posting into a contact-harvesting surface.
+  - operationId: getInformationalPostings
+    reason: Returns raw HTML fragments; would need extraction before it is agent-usable.
+coverage:
+  rest_operations_total: 35
+  rest_operations_bound: 14
+  tools_total: 12
+  tools_with_rest_binding: 12
+  tools_without_rest_binding: 0
