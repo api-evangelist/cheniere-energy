@@ -1,15 +1,14 @@
 aid: cheniere-energy
 name: Cheniere Energy
 kind: company
-description: >-
-  Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas, and the
-  leading producer and exporter of liquefied natural gas (LNG) in the United States, operating the
-  Sabine Pass terminal in Louisiana and the Corpus Christi terminal in Texas. It also owns two FERC-regulated
+description: 'Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas,
+  and the leading producer and exporter of liquefied natural gas (LNG) in the United States, operating
+  the Sabine Pass terminal in Louisiana and the Corpus Christi terminal in Texas. It also owns two FERC-regulated
   interstate natural gas pipelines, Cheniere Creole Trail Pipeline and Cheniere Corpus Christi Pipeline.
   Cheniere runs no developer program and publishes no API documentation, yet it does operate one public,
   unauthenticated JSON API: the LNG Connection informational-postings API at lngconnectionapi.cheniere.com,
-  serving the pipeline capacity, transactional reporting, Index of Customers, gas quality, imbalance
-  and notice postings that FERC 18 CFR 284.13 requires, in the NAESB Wholesale Gas Quadrant data model.
+  serving the pipeline capacity, transactional reporting, Index of Customers, gas quality, imbalance and
+  notice postings that FERC 18 CFR 284.13 requires, in the NAESB Wholesale Gas Quadrant data model.'
 type: Index
 deliveryModel:
   model: public-api
@@ -22,10 +21,9 @@ deliveryModel:
   - probe
   generated: '2026-09-06'
   method: probed
-  note: >-
-    Established by live anonymous probes on 2026-09-06: https://lngconnectionapi.cheniere.com/api/Page/GetPages
-    returned HTTP 200 with real posting data and no credential. The host is callable, but nothing
-    about it is licensed or sold — it exists to satisfy FERC 18 CFR 284.13.
+  note: 'Established by live anonymous probes on 2026-09-06: https://lngconnectionapi.cheniere.com/api/Page/GetPages
+    returned HTTP 200 with real posting data and no credential. The host is callable, but nothing about
+    it is licensed or sold — it exists to satisfy FERC 18 CFR 284.13.'
 accessModel:
   pricing: free
   onboarding: none
@@ -38,10 +36,9 @@ accessModel:
   - probe
   generated: '2026-09-06'
   method: probed
-  note: >-
-    No signup, no API key, no OAuth and no pricing page anywhere in the estate. Nine of eleven endpoints
-    probed anonymously on 2026-09-06 returned HTTP 200; the two failures were server-side 500s, not
-    auth challenges.
+  note: No signup, no API key, no OAuth and no pricing page anywhere in the estate. Nine of eleven endpoints
+    probed anonymously on 2026-09-06 returned HTTP 200; the two failures were server-side 500s, not auth
+    challenges.
 position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cheniere-energy.png
@@ -63,13 +60,12 @@ tags:
 - Sabine Pass
 - Texas
 created: '2026-03-21'
-modified: '2026-09-06'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 apis:
 - aid: cheniere-energy:website
   name: Cheniere Energy Website
-  description: >-
-    Cheniere Energy's corporate website. It carries no developer documentation and no API reference;
+  description: Cheniere Energy's corporate website. It carries no developer documentation and no API reference;
     supplier and contractor integration is handled through a dedicated portal. The company's one public
     API is described in the separate LNG Connection entry.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
@@ -87,38 +83,16 @@ apis:
     url: https://www.cheniere.com/about/resources/suppliers-and-contractors
   - type: Operations
     url: https://www.cheniere.com/about/where-we-work
-- aid: cheniere-energy:lng-connection
-  name: Cheniere LNG Connection Pipeline Informational Postings API
-  description: >-
-    The public, unauthenticated JSON API behind Cheniere's LNG Connection site, which publishes the
-    FERC-mandated informational postings for Cheniere Creole Trail Pipeline, L.P. (tspNo 200) and
-    Cheniere Corpus Christi Pipeline, L.P. (tspNo 400). It serves operationally available and unsubscribed
-    capacity by NAESB nomination cycle, firm and interruptible transactional reporting, the quarterly
-    Index of Customers, daily and comingled gas quality, posted imbalances, operational notices, and
-    the location, station and contact reference data. 35 operations, all data operations read-only,
-    no credential of any kind. Cheniere publishes no OpenAPI and no documentation for it; the specification
-    in this repository was derived by API Evangelist from the provider's own client bundle plus live
-    anonymous probes on 2026-09-06 and is labelled as derived.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cheniere-energy.png
-  humanURL: https://lngconnection.cheniere.com
-  baseURL: https://lngconnectionapi.cheniere.com
+- aid: cheniere-energy:cheniere-energy-capacity-api
+  name: Cheniere Energy Capacity API
+  description: Operationally available and unsubscribed capacity postings by nomination cycle.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
   tags:
-  - Natural Gas
-  - Pipelines
-  - FERC
-  - NAESB
   - Capacity
-  - Gas Quality
-  - Informational Postings
-  - Open Data
-  - Energy
   properties:
   - type: OpenAPI
-    url: openapi/cheniere-energy-lng-connection.yml
-  - type: Overlay
-    url: overlays/cheniere-energy-lng-connection-overlay.yaml
-  - type: MCPServer
-    url: mcp/cheniere-energy-mcp.yml
+    url: openapi/cheniere-energy-capacity-api-openapi.yml
   - type: ToolCrosswalk
     url: mcp/cheniere-energy-tool-crosswalk.yml
   - type: Authentication
@@ -137,8 +111,276 @@ apis:
     url: rate-limits/cheniere-energy-rate-limits.yml
   - type: Plans
     url: plans/cheniere-energy-plans-pricing.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-discovery-api
+  name: Cheniere Energy Discovery API
+  description: The posting page tree and the TSPs served.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-discovery-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-documents-api
+  name: Cheniere Energy Documents API
+  description: Documents attached to posting pages.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-documents-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-gas-quality-api
+  name: Cheniere Energy Gas Quality API
+  description: Daily, comingled and mainline gas-quality analyses.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Gas Quality
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-gas-quality-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-imbalances-api
+  name: Cheniere Energy Imbalances API
+  description: Posted imbalance reports.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Imbalances
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-imbalances-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-index-of-customers-api
+  name: Cheniere Energy Index of Customers API
+  description: Quarterly Index of Customers postings.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Index of Customers
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-index-of-customers-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-notices-api
+  name: Cheniere Energy Notices API
+  description: Critical and non-critical operational notices.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Notices
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-notices-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-reference-data-api
+  name: Cheniere Energy Reference Data API
+  description: Locations, stations, contacts, legends and footers.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Reference Data
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-reference-data-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-telemetry-api
+  name: Cheniere Energy Telemetry API
+  description: Client-side error reporting sink.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-telemetry-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
+  - type: Website
+    url: https://lngconnection.cheniere.com
+- aid: cheniere-energy:cheniere-energy-transactional-reporting-api
+  name: Cheniere Energy Transactional Reporting API
+  description: Firm, interruptible and capacity-release transactional reporting.
+  humanURL: https://www.cheniere.com
+  baseURL: https://www.cheniere.com
+  tags:
+  - Transactional Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/cheniere-energy-transactional-reporting-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cheniere-energy-tool-crosswalk.yml
+  - type: Authentication
+    url: authentication/cheniere-energy-authentication.yml
+  - type: ErrorCatalog
+    url: errors/cheniere-energy-problem-types.yml
+  - type: Conventions
+    url: conventions/cheniere-energy-conventions.yml
+  - type: DataModel
+    url: data-model/cheniere-energy-data-model.yml
+  - type: Conformance
+    url: conformance/cheniere-energy-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/cheniere-energy-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/cheniere-energy-rate-limits.yml
+  - type: Plans
+    url: plans/cheniere-energy-plans-pricing.yml
   - type: Website
     url: https://lngconnection.cheniere.com
 common:
@@ -187,7 +429,7 @@ common:
 - type: Operations
   url: https://www.cheniere.com/about/where-we-work
 - type: OpenAPI
-  url: openapi/cheniere-energy-lng-connection.yml
+  url: openapi/_original/cheniere-energy-lng-connection.yml
 - type: Overlay
   url: overlays/cheniere-energy-lng-connection-overlay.yaml
 - type: MCPServer
