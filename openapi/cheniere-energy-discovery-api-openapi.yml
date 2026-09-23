@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  title: Cheniere LNG Connection — Pipeline Informational Postings…
+  version: '2026-09-06'
+  summary: The JSON API behind Cheniere's LNG Connection informational-postings site for its FERC-regulated interstate natural gas pipelines.
+  description: Cheniere Energy publishes the FERC-mandated informational postings for its interstate natural gas pipelines — Cheniere Creole Trail Pipeline, L.P.
+  contact:
+    name: Cheniere Pipeline Operations
+    url: https://www.cheniere.com/about/where-we-work/creole-trail-pipeline
+  x-derived-by: API Evangelist enrichment pipeline (local-v3)
+  x-generated-from: provider client bundle string literals + live anonymous response probes
+  x-not-published-by-provider: true
+servers:
+- url: https://lngconnectionapi.cheniere.com
+  description: Production. Referenced as the prod baseUrl in the provider's own client bundle.
+security: []
+tags:
+- name: Discovery
+  description: The posting page tree and the TSPs served.
+paths:
+  /api/Page/GetPages:
+    get:
+      operationId: getPages
+      summary: List the posting page tree and the TSPs served
+      tags:
+      - Discovery
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageIndex'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Root discovery document for the site. Returns every informational-posting page (with nested sub-pages) and the list of transportation service providers. No parameters, no authentication.
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Page/GetPages
+        status: 200
+        date: '2026-09-06'
+  /api/Page/GetLinkByPageId:
+    get:
+      operationId: getLinkByPageId
+      summary: Get the external link attached to a posting page
+      tags:
+      - Discovery
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: pageId
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Returns null when the page carries no link.
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Page/GetLinkByPageId?tspNo=200&pageId=10
+        status: 200
+        date: '2026-09-06'
+components:
+  schemas:
+    Page:
+      type: object
+      description: A node in the informational-postings navigation tree. `subPage` recurses.
+      properties:
+        name:
+          type: string
+        pageId:
+          type: integer
+        isExpired:
+          type: boolean
+        attributeMetaId:
+          type: integer
+        attributeId:
+          type: integer
+        orderBy:
+          type: integer
+        metaId:
+          type: integer
+        description:
+          type: string
+        isEmbedded:
+          type: boolean
+        subPage:
+          type: array
+          items:
+            $ref: '#/components/schemas/Page'
+    PageIndex:
+      type: object
+      description: 'Root discovery document: the full posting-page tree plus the transportation service providers (TSPs) served by this site.'
+      properties:
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Page'
+        companies:
+          type: array
+          items:
+            type: object
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
+externalDocs:
+  description: LNG Connection informational postings site
+  url: https://lngconnection.cheniere.com/

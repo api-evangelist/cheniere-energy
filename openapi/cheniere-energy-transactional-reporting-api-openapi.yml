@@ -1,0 +1,274 @@
+openapi: 3.2.0
+info:
+  title: Cheniere LNG Connection — Pipeline Informational Postings…
+  version: '2026-09-06'
+  summary: The JSON API behind Cheniere's LNG Connection informational-postings site for its FERC-regulated interstate natural gas pipelines.
+  description: Cheniere Energy publishes the FERC-mandated informational postings for its interstate natural gas pipelines — Cheniere Creole Trail Pipeline, L.P.
+  contact:
+    name: Cheniere Pipeline Operations
+    url: https://www.cheniere.com/about/where-we-work/creole-trail-pipeline
+  x-derived-by: API Evangelist enrichment pipeline (local-v3)
+  x-generated-from: provider client bundle string literals + live anonymous response probes
+  x-not-published-by-provider: true
+servers:
+- url: https://lngconnectionapi.cheniere.com
+  description: Production. Referenced as the prod baseUrl in the provider's own client bundle.
+security: []
+tags:
+- name: Transactional Reporting
+  description: Firm, interruptible and capacity-release transactional reporting.
+paths:
+  /api/Transactional/GetFirm:
+    get:
+      operationId: getFirmTransactionalReport
+      summary: Firm transactional reporting
+      tags:
+      - Transactional Reporting
+      description: 'FERC 18 CFR 284.13(b) firm transportation transactional reporting: contract, shipper, affiliate indicator, rate charged vs maximum tariff rate, and per-location MDQ.'
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/TransactionalReportRow'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Transactional/GetFirm?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+  /api/Transactional/GetInteruptible:
+    get:
+      operationId: getInterruptibleTransactionalReport
+      summary: Interruptible transactional reporting
+      tags:
+      - Transactional Reporting
+      description: Path spelling `GetInteruptible` is the provider's own (single 'r'); it is reproduced verbatim.
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/TransactionalReportRow'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Transactional/GetInteruptible?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+  /api/Transactional/GetCapacityRelease:
+    get:
+      operationId: getCapacityReleaseReport
+      summary: Capacity release transactional reporting
+      tags:
+      - Transactional Reporting
+      description: Probed 2026-09-06 and returned HTTP 500 with the generic error envelope for tspNo 200 across a valid date range; the client also calls it with tspNo alone, which returned 404. Recorded as published-but-failing rather than absent.
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/TransactionalReportRow'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Transactional/GetCapacityRelease?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 500
+        date: '2026-09-06'
+components:
+  schemas:
+    TransactionalReportRow:
+      type: object
+      description: 'Transactional reporting row (firm / interruptible / capacity release) per FERC 18 CFR 284.13(b): contract, shipper, rate and location detail.'
+      properties:
+        postDateTime:
+          type: string
+          format: date-time
+        tspNo:
+          type: integer
+        tspName:
+          type: string
+        tspDuns:
+          type: string
+        contractHolder:
+          type: string
+        contractHolderName:
+          type: string
+        contractHolderProp:
+          type: string
+        serviceRequesterContract:
+          type: string
+        contractBeginDate:
+          type: string
+          format: date-time
+        contractEndDate:
+          type: string
+          format: date-time
+        contractStatus:
+          type: string
+        ctrMDQ:
+          type: number
+        affil:
+          type: string
+        rateCharged:
+          type: number
+        maxTariffRate:
+          type: number
+        rateSchedule:
+          type: string
+        resRateBasis:
+          type: string
+        rateID:
+          type: string
+        mktBasedRateInd:
+          type: string
+        ngtdRateInd:
+          type: string
+        surchgInd:
+          type: integer
+        locId:
+          type: string
+        ctrLocMDQ:
+          type: number
+        loc:
+          type: string
+        locPurpose:
+          type: string
+        locQTI:
+          type: integer
+    ReportEnvelope:
+      type: object
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      properties:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
+          type: string
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
+externalDocs:
+  description: LNG Connection informational postings site
+  url: https://lngconnection.cheniere.com/

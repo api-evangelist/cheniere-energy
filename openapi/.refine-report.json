@@ -1,0 +1,38 @@
+{
+  "provider": "cheniere-energy",
+  "sources": [
+    "_original/cheniere-energy-lng-connection.yml"
+  ],
+  "outputs": [
+    "cheniere-energy-capacity-api-openapi.yml",
+    "cheniere-energy-discovery-api-openapi.yml",
+    "cheniere-energy-documents-api-openapi.yml",
+    "cheniere-energy-gas-quality-api-openapi.yml",
+    "cheniere-energy-imbalances-api-openapi.yml",
+    "cheniere-energy-index-of-customers-api-openapi.yml",
+    "cheniere-energy-notices-api-openapi.yml",
+    "cheniere-energy-reference-data-api-openapi.yml",
+    "cheniere-energy-telemetry-api-openapi.yml",
+    "cheniere-energy-transactional-reporting-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cheniere-energy-lng-connection.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "cheniere-energy-capacity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-gas-quality-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-imbalances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-index-of-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-notices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-reference-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-telemetry-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cheniere-energy-transactional-reporting-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

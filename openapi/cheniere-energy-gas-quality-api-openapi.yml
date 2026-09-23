@@ -1,0 +1,357 @@
+openapi: 3.2.0
+info:
+  title: Cheniere LNG Connection — Pipeline Informational Postings…
+  version: '2026-09-06'
+  summary: The JSON API behind Cheniere's LNG Connection informational-postings site for its FERC-regulated interstate natural gas pipelines.
+  description: Cheniere Energy publishes the FERC-mandated informational postings for its interstate natural gas pipelines — Cheniere Creole Trail Pipeline, L.P.
+  contact:
+    name: Cheniere Pipeline Operations
+    url: https://www.cheniere.com/about/where-we-work/creole-trail-pipeline
+  x-derived-by: API Evangelist enrichment pipeline (local-v3)
+  x-generated-from: provider client bundle string literals + live anonymous response probes
+  x-not-published-by-provider: true
+servers:
+- url: https://lngconnectionapi.cheniere.com
+  description: Production. Referenced as the prod baseUrl in the provider's own client bundle.
+security: []
+tags:
+- name: Gas Quality
+  description: Daily, comingled and mainline gas-quality analyses.
+paths:
+  /api/GasQuality/GetLocations:
+    get:
+      operationId: getGasQualityLocations
+      summary: List locations with gas-quality postings
+      tags:
+      - Gas Quality
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GasQualityLocation'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/GasQuality/GetLocations?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+  /api/GasQuality/GetGasQuality:
+    get:
+      operationId: getGasQuality
+      summary: Daily gas quality for a location and date range
+      tags:
+      - Gas Quality
+      description: null
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: locationId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Location id from getGasQualityLocations.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GasQualityReading'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/GasQuality/GetGasQuality?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05&locationId=CT109425
+        status: 200
+        date: '2026-09-06'
+  /api/DailyComingled/GetDailyComingled:
+    get:
+      operationId: getDailyComingledGasQuality
+      summary: Daily comingled system gas quality
+      tags:
+      - Gas Quality
+      description: null
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ComingledGasQuality'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/DailyComingled/GetDailyComingled?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+  /api/Mainline/GetMainline:
+    get:
+      operationId: getMainlineGasQuality
+      summary: Mainline gas-quality report
+      tags:
+      - Gas Quality
+      description: Returns an empty `report` array for both probed TSPs; the endpoint is served but carried no rows on 2026-09-06.
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GasQualityReading'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Mainline/GetMainline?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+components:
+  schemas:
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    GasQualityReading:
+      type: object
+      description: 'Daily gas-quality analysis for one location: heating value, Wobbe index and hydrocarbon/inert mole percentages.'
+      properties:
+        tsP_NO:
+          type: integer
+        legaL_NAME:
+          type: string
+        dunS_NO:
+          type: string
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+        gaS_DAY:
+          type: string
+          format: date-time
+        heatinG_VALUE:
+          type: number
+        n2_PCT:
+          type: number
+        c02_PCT:
+          type: number
+        c1_PCT:
+          type: number
+        c2_PCT:
+          type: number
+        c3_PCT:
+          type: number
+        iC4_PCT:
+          type: number
+        nC4_PCT:
+          type: number
+        iC5_PCT:
+          type: number
+        nC5_PCT:
+          type: number
+        c6PLUS_PCT:
+          type: number
+        wobbE_INDEX:
+          type: number
+    ComingledGasQuality:
+      type: object
+      description: Daily comingled (system-wide) gas-quality analysis.
+      properties:
+        comingledId:
+          type: integer
+        gasDay:
+          type: string
+          format: date-time
+        btu:
+          type: number
+        c1:
+          type: number
+        c2:
+          type: number
+        c3:
+          type: number
+        c4I:
+          type: number
+        c4N:
+          type: number
+        c5:
+          type: number
+        c6Plus:
+          type: number
+        cO2:
+          type: number
+        n2:
+          type: number
+        nC5:
+          type: number
+        companyId:
+          type: integer
+        frequency:
+          type: string
+    ReportEnvelope:
+      type: object
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      properties:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
+          type: string
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
+    GasQualityLocation:
+      type: object
+      description: A location that carries a gas-quality posting.
+      properties:
+        tsP_NO:
+          type: integer
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+externalDocs:
+  description: LNG Connection informational postings site
+  url: https://lngconnection.cheniere.com/

@@ -1,0 +1,406 @@
+openapi: 3.2.0
+info:
+  title: Cheniere LNG Connection — Pipeline Informational Postings…
+  version: '2026-09-06'
+  summary: The JSON API behind Cheniere's LNG Connection informational-postings site for its FERC-regulated interstate natural gas pipelines.
+  description: Cheniere Energy publishes the FERC-mandated informational postings for its interstate natural gas pipelines — Cheniere Creole Trail Pipeline, L.P.
+  contact:
+    name: Cheniere Pipeline Operations
+    url: https://www.cheniere.com/about/where-we-work/creole-trail-pipeline
+  x-derived-by: API Evangelist enrichment pipeline (local-v3)
+  x-generated-from: provider client bundle string literals + live anonymous response probes
+  x-not-published-by-provider: true
+servers:
+- url: https://lngconnectionapi.cheniere.com
+  description: Production. Referenced as the prod baseUrl in the provider's own client bundle.
+security: []
+tags:
+- name: Reference Data
+  description: Locations, stations, contacts, legends and footers.
+paths:
+  /api/LocationDownload/Get:
+    get:
+      operationId: getLocationList
+      summary: Full location master list for a TSP
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocationDetail'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: 'The downloadable location list: FERC company id, DUNS, zone, county, state, flow direction, status and upstream/downstream party for every point on the system.'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/LocationDownload/Get?tspNo=200
+        status: 200
+        date: '2026-09-06'
+  /api/Station/GetStationsByCompanyId:
+    get:
+      operationId: getStations
+      summary: Compressor and metering stations
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Station/GetStationsByCompanyId?tspNo=200
+        status: 200
+        date: '2026-09-06'
+  /api/InformationContact/GetContacts:
+    get:
+      operationId: getInformationalContacts
+      summary: Published informational-postings contacts
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InformationalContact'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Role-based contacts the pipeline is required to publish (gas control, customer service, scheduling). Field names are recorded here; the live values are not copied into this repository.
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/InformationContact/GetContacts?tspNo=200
+        status: 200
+        date: '2026-09-06'
+  /api/InformationContact/GetInformations:
+    get:
+      operationId: getInformationalPostings
+      summary: Narrative informational postings
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Array of HTML fragments carrying the pipeline's narrative postings (reversed-flow capacity, operating conditions and similar).
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/InformationContact/GetInformations?tspNo=200
+        status: 200
+        date: '2026-09-06'
+  /api/Weather/GetWeatherLocations:
+    get:
+      operationId: getWeatherLocations
+      summary: Weather locations for the system map
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Probed 2026-09-06 and returned HTTP 500 with the generic error envelope for tspNo 200. Recorded as published-but-failing.
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Weather/GetWeatherLocations?tspNo=200
+        status: 500
+        date: '2026-09-06'
+  /api/Legend/GetLegendByMetaId:
+    get:
+      operationId: getLegendByMetaId
+      summary: Legend text for a report
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: metaId
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Legend/GetLegendByMetaId?tspNo=200&metaId=1003
+        status: 200
+        date: '2026-09-06'
+  /api/Footer/GetReportFooterByMetaId:
+    get:
+      operationId: getReportFooterByMetaId
+      summary: Footer text for a report
+      tags:
+      - Reference Data
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: metaId
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Footer/GetReportFooterByMetaId?tspNo=200&metaId=1003
+        status: 200
+        date: '2026-09-06'
+components:
+  schemas:
+    InformationalContact:
+      type: object
+      description: A published informational-postings contact. Field names only; no example values are recorded in this repository.
+      properties:
+        contactId:
+          type: integer
+        name:
+          type: string
+        companyId:
+          type: integer
+        email:
+          type: string
+        office:
+          type: string
+        mobile:
+          type: string
+        afterHour:
+          type: string
+        metaId:
+          type: integer
+        isExpired:
+          type: boolean
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    Station:
+      type: object
+      description: A compressor / metering station shown on the system map.
+      properties:
+        stationId:
+          type: integer
+        companyId:
+          type: integer
+        locationId:
+          type: string
+        locationName:
+          type: string
+        directionOfFlow:
+          type: string
+        description:
+          type: string
+        isExpired:
+          type: boolean
+        metaId:
+          type: integer
+        orderBy:
+          type: integer
+    LocationDetail:
+      type: object
+      description: 'Full location master record from the downloadable location list: FERC company ID, DUNS, zone, county, state, flow direction and upstream/downstream party.'
+      properties:
+        tsP_NO:
+          type: integer
+        tsP_DUNS_NO:
+          type: string
+        tsP_NM:
+          type: string
+        tsP_FERC_CID:
+          type: string
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+        efF_DT:
+          type: string
+          format: date-time
+        inacT_DT:
+          type: string
+          format: date-time
+        loC_STATUS_CD:
+          type: string
+        loC_TYPE_CD:
+          type: string
+        floW_DIRECTION:
+          type: string
+        znE_LOC_GRP_NM:
+          type: string
+        countY_DESCR:
+          type: string
+        statE_CD:
+          type: string
+        updN_IND_CD:
+          type: string
+        updN_FERC_IND_CD:
+          type: string
+        updN_NM:
+          type: string
+        updN_ID:
+          type: string
+        updN_ID_PROP:
+          type: string
+        updN_FERC_CID:
+          type:
+          - string
+          - 'null'
+        updN_LOC_ID:
+          type:
+          - string
+          - 'null'
+        updN_LOC_NM:
+          type:
+          - string
+          - 'null'
+        updT_DT:
+          type: string
+          format: date-time
+externalDocs:
+  description: LNG Connection informational postings site
+  url: https://lngconnection.cheniere.com/

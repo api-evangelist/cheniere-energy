@@ -1,0 +1,336 @@
+openapi: 3.2.0
+info:
+  title: Cheniere LNG Connection — Pipeline Informational Postings…
+  version: '2026-09-06'
+  summary: The JSON API behind Cheniere's LNG Connection informational-postings site for its FERC-regulated interstate natural gas pipelines.
+  description: Cheniere Energy publishes the FERC-mandated informational postings for its interstate natural gas pipelines — Cheniere Creole Trail Pipeline, L.P.
+  contact:
+    name: Cheniere Pipeline Operations
+    url: https://www.cheniere.com/about/where-we-work/creole-trail-pipeline
+  x-derived-by: API Evangelist enrichment pipeline (local-v3)
+  x-generated-from: provider client bundle string literals + live anonymous response probes
+  x-not-published-by-provider: true
+servers:
+- url: https://lngconnectionapi.cheniere.com
+  description: Production. Referenced as the prod baseUrl in the provider's own client bundle.
+security: []
+tags:
+- name: Capacity
+  description: Operationally available and unsubscribed capacity postings by nomination cycle.
+paths:
+  /api/Capacity/GetCycles:
+    get:
+      operationId: getCycles
+      summary: List NAESB nomination cycles
+      tags:
+      - Capacity
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cycle'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: The five NAESB WGQ nomination cycles used as the cycleId argument to getOperationallyAvailableCapacity.
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Capacity/GetCycles
+        status: 200
+        date: '2026-09-06'
+  /api/Capacity/GetLocations:
+    get:
+      operationId: getCapacityLocations
+      summary: List capacity posting locations for a date range
+      tags:
+      - Capacity
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: End gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Capacity/GetLocations?tspNo=200&beginDate=2026-09-01&endDate=2026-09-05
+        status: 200
+        date: '2026-09-06'
+  /api/Capacity/GetCapacity:
+    get:
+      operationId: getOperationallyAvailableCapacity
+      summary: Operationally available capacity for a gas day, cycle and location
+      tags:
+      - Capacity
+      description: FERC 18 CFR 284.13(d) / NAESB WGQ operationally available capacity posting. Envelope carries `report` and `beginDate` only.
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      - name: cycleId
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: Nomination cycle id from getCycles.
+      - name: locationId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Location id from getCapacityLocations.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ReportEnvelope'
+                - type: object
+                  properties:
+                    report:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/OperationallyAvailableCapacity'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Capacity/GetCapacity?tspNo=200&beginDate=2026-09-05&cycleId=1&locationId=CT109413
+        status: 200
+        date: '2026-09-06'
+  /api/Capacity/GetUnsubscribed:
+    get:
+      operationId: getUnsubscribedCapacity
+      summary: Unsubscribed firm capacity for a gas day
+      tags:
+      - Capacity
+      parameters:
+      - name: tspNo
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: 'Transportation service provider (company) id. Observed values: 200 = Cheniere Creole Trail Pipeline, L.P. (DUNS 800742780, FERC CID C001506); 400 = Cheniere Corpus Christi Pipeline, L.P. (DUNS 079841991). 600 and 800 route in the client but returned no rows when probed.'
+      - name: beginDate
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Begin gas day. Accepted as YYYY-MM-DD or M/D/YYYY.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnsubscribedCapacity'
+        '404':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Error. ASP.NET Web API envelope: {"message": "..."}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-probed:
+        url: https://lngconnectionapi.cheniere.com/api/Capacity/GetUnsubscribed?tspNo=200&beginDate=2026-09-01
+        status: 200
+        date: '2026-09-06'
+components:
+  schemas:
+    UnsubscribedCapacity:
+      type: object
+      description: Unsubscribed firm capacity posting for one location and gas day.
+      properties:
+        tsP_NO:
+          type: integer
+        dunS_NUM:
+          type: string
+        legaL_NAME:
+          type: string
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+        poV_CD:
+          type: string
+        efF_DT_FROM:
+          type: string
+          format: date-time
+        efF_DT_TO:
+          type: string
+          format: date-time
+        posT_DATE:
+          type: string
+        loC_PURP:
+          type: string
+        loC_QTI:
+          type: string
+        meaS_BASIS:
+          type: string
+        meaS_BASIS_DESC:
+          type: string
+        loC_CAP:
+          type: number
+        comments:
+          type:
+          - string
+          - 'null'
+    OperationallyAvailableCapacity:
+      type: object
+      description: Operationally available / unscheduled capacity posting for one location and nomination cycle (NAESB WGQ 5.3.x, FERC 18 CFR 284.13(d)).
+      properties:
+        tsp:
+          type: string
+        tsP_NAME:
+          type: string
+        cycle:
+          type: string
+        postinG_DT_TIME:
+          type: string
+        avaiL_CAP_EFF_DT_TIME:
+          type: string
+          format: date-time
+        avaiL_CAP_END_DT:
+          type: string
+          format: date-time
+        caP_TYPE_DESC:
+          type: string
+        loc:
+          type: string
+        loC_NAME:
+          type: string
+        loC_PURP_DESC:
+          type: string
+        loC_QTI:
+          type: string
+        meaS_BASIS:
+          type: string
+        it:
+          type: string
+        alL_QTY_AVAIL:
+          type: string
+        desigN_OPER_CAP:
+          type: number
+        opeR_CAP:
+          type: number
+        scheD_QTY:
+          type: number
+        qtY_AVAIL:
+          type: number
+        floW_IND:
+          type: string
+        row_Number:
+          type: string
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    Location:
+      type: object
+      description: A capacity posting location (receipt/delivery point).
+      properties:
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+    ReportEnvelope:
+      type: object
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      properties:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
+          type: string
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
+    Cycle:
+      type: object
+      description: A NAESB WGQ nomination cycle (Timely, Evening, Intraday 1/2/3).
+      properties:
+        cyclE_ID:
+          type: integer
+        cyclE_TYPE_DESCR:
+          type: string
+externalDocs:
+  description: LNG Connection informational postings site
+  url: https://lngconnection.cheniere.com/
