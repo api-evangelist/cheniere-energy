@@ -130,6 +130,14 @@ paths:
         note: Write-shaped export endpoint; not exercised.
 components:
   schemas:
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     IndexOfCustomersEntry:
       type: object
       description: 'One Index of Customers record (FERC 18 CFR 284.13(c)), returned as the NAESB row structure: `header.row1` pipeline header, `header.row2` shipper detail, `header.row3` agent, plus `section` rollups.'
@@ -140,14 +148,6 @@ components:
           type: array
           items:
             type: object
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

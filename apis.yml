@@ -70,7 +70,6 @@ apis:
     API is described in the separate LNG Connection entry.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
   tags:
   - Energy
   - Export
@@ -87,7 +86,7 @@ apis:
   name: Cheniere Energy Capacity API
   description: Operationally available and unsubscribed capacity postings by nomination cycle.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Capacity
   properties:
@@ -117,7 +116,7 @@ apis:
   name: Cheniere Energy Discovery API
   description: The posting page tree and the TSPs served.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Discovery
   properties:
@@ -147,7 +146,7 @@ apis:
   name: Cheniere Energy Documents API
   description: Documents attached to posting pages.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Documents
   properties:
@@ -177,7 +176,7 @@ apis:
   name: Cheniere Energy Gas Quality API
   description: Daily, comingled and mainline gas-quality analyses.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Gas Quality
   properties:
@@ -207,7 +206,7 @@ apis:
   name: Cheniere Energy Imbalances API
   description: Posted imbalance reports.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Imbalances
   properties:
@@ -237,7 +236,7 @@ apis:
   name: Cheniere Energy Index of Customers API
   description: Quarterly Index of Customers postings.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Index of Customers
   properties:
@@ -267,7 +266,7 @@ apis:
   name: Cheniere Energy Notices API
   description: Critical and non-critical operational notices.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Notices
   properties:
@@ -297,7 +296,7 @@ apis:
   name: Cheniere Energy Reference Data API
   description: Locations, stations, contacts, legends and footers.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Reference Data
   properties:
@@ -327,7 +326,7 @@ apis:
   name: Cheniere Energy Telemetry API
   description: Client-side error reporting sink.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Telemetry
   properties:
@@ -357,7 +356,7 @@ apis:
   name: Cheniere Energy Transactional Reporting API
   description: Firm, interruptible and capacity-release transactional reporting.
   humanURL: https://www.cheniere.com
-  baseURL: https://www.cheniere.com
+  baseURL: https://lngconnectionapi.cheniere.com
   tags:
   - Transactional Reporting
   properties:

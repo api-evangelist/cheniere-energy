@@ -247,6 +247,44 @@ components:
           type:
           - string
           - 'null'
+    Cycle:
+      type: object
+      description: A NAESB WGQ nomination cycle (Timely, Evening, Intraday 1/2/3).
+      properties:
+        cyclE_ID:
+          type: integer
+        cyclE_TYPE_DESCR:
+          type: string
+    Location:
+      type: object
+      description: A capacity posting location (receipt/delivery point).
+      properties:
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+    ReportEnvelope:
+      type: object
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      properties:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
+          type: string
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     OperationallyAvailableCapacity:
       type: object
       description: Operationally available / unscheduled capacity posting for one location and nomination cycle (NAESB WGQ 5.3.x, FERC 18 CFR 284.13(d)).
@@ -292,44 +330,6 @@ components:
         floW_IND:
           type: string
         row_Number:
-          type: string
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    Location:
-      type: object
-      description: A capacity posting location (receipt/delivery point).
-      properties:
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
-    ReportEnvelope:
-      type: object
-      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
-      properties:
-        report:
-          type: array
-          items:
-            type: object
-        beginDate:
-          type: string
-          description: Echo of the requested begin gas day, M/D/YYYY.
-        endDate:
-          type: string
-          description: Echo of the requested end gas day, M/D/YYYY.
-    Cycle:
-      type: object
-      description: A NAESB WGQ nomination cycle (Timely, Evening, Intraday 1/2/3).
-      properties:
-        cyclE_ID:
-          type: integer
-        cyclE_TYPE_DESCR:
           type: string
 externalDocs:
   description: LNG Connection informational postings site

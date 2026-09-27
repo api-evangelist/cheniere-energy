@@ -244,6 +244,65 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
+    ComingledGasQuality:
+      type: object
+      description: Daily comingled (system-wide) gas-quality analysis.
+      properties:
+        comingledId:
+          type: integer
+        gasDay:
+          type: string
+          format: date-time
+        btu:
+          type: number
+        c1:
+          type: number
+        c2:
+          type: number
+        c3:
+          type: number
+        c4I:
+          type: number
+        c4N:
+          type: number
+        c5:
+          type: number
+        c6Plus:
+          type: number
+        cO2:
+          type: number
+        n2:
+          type: number
+        nC5:
+          type: number
+        companyId:
+          type: integer
+        frequency:
+          type: string
+    GasQualityLocation:
+      type: object
+      description: A location that carries a gas-quality posting.
+      properties:
+        tsP_NO:
+          type: integer
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+    ReportEnvelope:
+      type: object
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      properties:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
+          type: string
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
     Error:
       type: object
       description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
@@ -293,65 +352,6 @@ components:
           type: number
         wobbE_INDEX:
           type: number
-    ComingledGasQuality:
-      type: object
-      description: Daily comingled (system-wide) gas-quality analysis.
-      properties:
-        comingledId:
-          type: integer
-        gasDay:
-          type: string
-          format: date-time
-        btu:
-          type: number
-        c1:
-          type: number
-        c2:
-          type: number
-        c3:
-          type: number
-        c4I:
-          type: number
-        c4N:
-          type: number
-        c5:
-          type: number
-        c6Plus:
-          type: number
-        cO2:
-          type: number
-        n2:
-          type: number
-        nC5:
-          type: number
-        companyId:
-          type: integer
-        frequency:
-          type: string
-    ReportEnvelope:
-      type: object
-      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
-      properties:
-        report:
-          type: array
-          items:
-            type: object
-        beginDate:
-          type: string
-          description: Echo of the requested begin gas day, M/D/YYYY.
-        endDate:
-          type: string
-          description: Echo of the requested end gas day, M/D/YYYY.
-    GasQualityLocation:
-      type: object
-      description: A location that carries a gas-quality posting.
-      properties:
-        tsP_NO:
-          type: integer
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/
