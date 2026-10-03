@@ -290,6 +290,50 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
+    Station:
+      type: object
+      description: A compressor / metering station shown on the system map.
+      properties:
+        stationId:
+          type: integer
+        companyId:
+          type: integer
+        locationId:
+          type: string
+        locationName:
+          type: string
+        directionOfFlow:
+          type: string
+        description:
+          type: string
+        isExpired:
+          type: boolean
+        metaId:
+          type: integer
+        orderBy:
+          type: integer
+    InformationalContact:
+      type: object
+      description: A published informational-postings contact. Field names only; no example values are recorded in this repository.
+      properties:
+        contactId:
+          type: integer
+        name:
+          type: string
+        companyId:
+          type: integer
+        email:
+          type: string
+        office:
+          type: string
+        mobile:
+          type: string
+        afterHour:
+          type: string
+        metaId:
+          type: integer
+        isExpired:
+          type: boolean
     LocationDetail:
       type: object
       description: 'Full location master record from the downloadable location list: FERC company ID, DUNS, zone, county, state, flow direction and upstream/downstream party.'
@@ -357,50 +401,6 @@ components:
           type: string
       required:
       - message
-    InformationalContact:
-      type: object
-      description: A published informational-postings contact. Field names only; no example values are recorded in this repository.
-      properties:
-        contactId:
-          type: integer
-        name:
-          type: string
-        companyId:
-          type: integer
-        email:
-          type: string
-        office:
-          type: string
-        mobile:
-          type: string
-        afterHour:
-          type: string
-        metaId:
-          type: integer
-        isExpired:
-          type: boolean
-    Station:
-      type: object
-      description: A compressor / metering station shown on the system map.
-      properties:
-        stationId:
-          type: integer
-        companyId:
-          type: integer
-        locationId:
-          type: string
-        locationName:
-          type: string
-        directionOfFlow:
-          type: string
-        description:
-          type: string
-        isExpired:
-          type: boolean
-        metaId:
-          type: integer
-        orderBy:
-          type: integer
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

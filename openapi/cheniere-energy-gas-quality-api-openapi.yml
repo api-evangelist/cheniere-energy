@@ -244,6 +244,47 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
+    GasQualityReading:
+      type: object
+      description: 'Daily gas-quality analysis for one location: heating value, Wobbe index and hydrocarbon/inert mole percentages.'
+      properties:
+        tsP_NO:
+          type: integer
+        legaL_NAME:
+          type: string
+        dunS_NO:
+          type: string
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+        gaS_DAY:
+          type: string
+          format: date-time
+        heatinG_VALUE:
+          type: number
+        n2_PCT:
+          type: number
+        c02_PCT:
+          type: number
+        c1_PCT:
+          type: number
+        c2_PCT:
+          type: number
+        c3_PCT:
+          type: number
+        iC4_PCT:
+          type: number
+        nC4_PCT:
+          type: number
+        iC5_PCT:
+          type: number
+        nC5_PCT:
+          type: number
+        c6PLUS_PCT:
+          type: number
+        wobbE_INDEX:
+          type: number
     ComingledGasQuality:
       type: object
       description: Daily comingled (system-wide) gas-quality analysis.
@@ -311,47 +352,6 @@ components:
           type: string
       required:
       - message
-    GasQualityReading:
-      type: object
-      description: 'Daily gas-quality analysis for one location: heating value, Wobbe index and hydrocarbon/inert mole percentages.'
-      properties:
-        tsP_NO:
-          type: integer
-        legaL_NAME:
-          type: string
-        dunS_NO:
-          type: string
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
-        gaS_DAY:
-          type: string
-          format: date-time
-        heatinG_VALUE:
-          type: number
-        n2_PCT:
-          type: number
-        c02_PCT:
-          type: number
-        c1_PCT:
-          type: number
-        c2_PCT:
-          type: number
-        c3_PCT:
-          type: number
-        iC4_PCT:
-          type: number
-        nC4_PCT:
-          type: number
-        iC5_PCT:
-          type: number
-        nC5_PCT:
-          type: number
-        c6PLUS_PCT:
-          type: number
-        wobbE_INDEX:
-          type: number
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

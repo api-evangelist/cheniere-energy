@@ -93,6 +93,26 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
+    PageIndex:
+      type: object
+      description: 'Root discovery document: the full posting-page tree plus the transportation service providers (TSPs) served by this site.'
+      properties:
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Page'
+        companies:
+          type: array
+          items:
+            type: object
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     Page:
       type: object
       description: A node in the informational-postings navigation tree. `subPage` recurses.
@@ -119,26 +139,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Page'
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    PageIndex:
-      type: object
-      description: 'Root discovery document: the full posting-page tree plus the transportation service providers (TSPs) served by this site.'
-      properties:
-        pages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Page'
-        companies:
-          type: array
-          items:
-            type: object
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

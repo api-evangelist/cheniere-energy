@@ -247,6 +247,14 @@ components:
           type: string
         locQTI:
           type: integer
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     ReportEnvelope:
       type: object
       description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
@@ -261,14 +269,6 @@ components:
         endDate:
           type: string
           description: Echo of the requested end gas day, M/D/YYYY.
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/
