@@ -244,6 +244,51 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
+    GasQualityLocation:
+      type: object
+      description: A location that carries a gas-quality posting.
+      properties:
+        tsP_NO:
+          type: integer
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+    ComingledGasQuality:
+      type: object
+      description: Daily comingled (system-wide) gas-quality analysis.
+      properties:
+        comingledId:
+          type: integer
+        gasDay:
+          type: string
+          format: date-time
+        btu:
+          type: number
+        c1:
+          type: number
+        c2:
+          type: number
+        c3:
+          type: number
+        c4I:
+          type: number
+        c4N:
+          type: number
+        c5:
+          type: number
+        c6Plus:
+          type: number
+        cO2:
+          type: number
+        n2:
+          type: number
+        nC5:
+          type: number
+        companyId:
+          type: integer
+        frequency:
+          type: string
     GasQualityReading:
       type: object
       description: 'Daily gas-quality analysis for one location: heating value, Wobbe index and hydrocarbon/inert mole percentages.'
@@ -285,51 +330,14 @@ components:
           type: number
         wobbE_INDEX:
           type: number
-    ComingledGasQuality:
+    Error:
       type: object
-      description: Daily comingled (system-wide) gas-quality analysis.
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
       properties:
-        comingledId:
-          type: integer
-        gasDay:
+        message:
           type: string
-          format: date-time
-        btu:
-          type: number
-        c1:
-          type: number
-        c2:
-          type: number
-        c3:
-          type: number
-        c4I:
-          type: number
-        c4N:
-          type: number
-        c5:
-          type: number
-        c6Plus:
-          type: number
-        cO2:
-          type: number
-        n2:
-          type: number
-        nC5:
-          type: number
-        companyId:
-          type: integer
-        frequency:
-          type: string
-    GasQualityLocation:
-      type: object
-      description: A location that carries a gas-quality posting.
-      properties:
-        tsP_NO:
-          type: integer
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
+      required:
+      - message
     ReportEnvelope:
       type: object
       description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
@@ -344,14 +352,6 @@ components:
         endDate:
           type: string
           description: Echo of the requested end gas day, M/D/YYYY.
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

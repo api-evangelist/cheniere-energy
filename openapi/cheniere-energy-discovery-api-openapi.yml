@@ -105,14 +105,6 @@ components:
           type: array
           items:
             type: object
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
     Page:
       type: object
       description: A node in the informational-postings navigation tree. `subPage` recurses.
@@ -139,6 +131,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Page'
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

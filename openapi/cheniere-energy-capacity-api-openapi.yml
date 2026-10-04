@@ -209,14 +209,6 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
-    Location:
-      type: object
-      description: A capacity posting location (receipt/delivery point).
-      properties:
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
     Cycle:
       type: object
       description: A NAESB WGQ nomination cycle (Timely, Evening, Intraday 1/2/3).
@@ -225,6 +217,44 @@ components:
           type: integer
         cyclE_TYPE_DESCR:
           type: string
+    UnsubscribedCapacity:
+      type: object
+      description: Unsubscribed firm capacity posting for one location and gas day.
+      properties:
+        tsP_NO:
+          type: integer
+        dunS_NUM:
+          type: string
+        legaL_NAME:
+          type: string
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+        poV_CD:
+          type: string
+        efF_DT_FROM:
+          type: string
+          format: date-time
+        efF_DT_TO:
+          type: string
+          format: date-time
+        posT_DATE:
+          type: string
+        loC_PURP:
+          type: string
+        loC_QTI:
+          type: string
+        meaS_BASIS:
+          type: string
+        meaS_BASIS_DESC:
+          type: string
+        loC_CAP:
+          type: number
+        comments:
+          type:
+          - string
+          - 'null'
     OperationallyAvailableCapacity:
       type: object
       description: Operationally available / unscheduled capacity posting for one location and nomination cycle (NAESB WGQ 5.3.x, FERC 18 CFR 284.13(d)).
@@ -271,6 +301,22 @@ components:
           type: string
         row_Number:
           type: string
+    Location:
+      type: object
+      description: A capacity posting location (receipt/delivery point).
+      properties:
+        loC_ID:
+          type: string
+        loC_NM:
+          type: string
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     ReportEnvelope:
       type: object
       description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
@@ -285,52 +331,6 @@ components:
         endDate:
           type: string
           description: Echo of the requested end gas day, M/D/YYYY.
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    UnsubscribedCapacity:
-      type: object
-      description: Unsubscribed firm capacity posting for one location and gas day.
-      properties:
-        tsP_NO:
-          type: integer
-        dunS_NUM:
-          type: string
-        legaL_NAME:
-          type: string
-        loC_ID:
-          type: string
-        loC_NM:
-          type: string
-        poV_CD:
-          type: string
-        efF_DT_FROM:
-          type: string
-          format: date-time
-        efF_DT_TO:
-          type: string
-          format: date-time
-        posT_DATE:
-          type: string
-        loC_PURP:
-          type: string
-        loC_QTI:
-          type: string
-        meaS_BASIS:
-          type: string
-        meaS_BASIS_DESC:
-          type: string
-        loC_CAP:
-          type: number
-        comments:
-          type:
-          - string
-          - 'null'
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/
