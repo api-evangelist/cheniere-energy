@@ -383,6 +383,8 @@ apis:
   - type: Website
     url: https://lngconnection.cheniere.com
 common:
+- type: FinOps
+  url: finops/cheniere-energy-finops.yml
 - type: DomainSecurity
   url: security/cheniere-energy-domain-security.yml
 - type: LinkedIn
