@@ -289,6 +289,14 @@ components:
           type: integer
         frequency:
           type: string
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     GasQualityReading:
       type: object
       description: 'Daily gas-quality analysis for one location: heating value, Wobbe index and hydrocarbon/inert mole percentages.'
@@ -330,14 +338,6 @@ components:
           type: number
         wobbE_INDEX:
           type: number
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
     ReportEnvelope:
       type: object
       description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.

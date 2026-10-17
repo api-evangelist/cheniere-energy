@@ -188,20 +188,14 @@ paths:
         date: '2026-09-06'
 components:
   schemas:
-    ReportEnvelope:
+    Error:
       type: object
-      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
       properties:
-        report:
-          type: array
-          items:
-            type: object
-        beginDate:
+        message:
           type: string
-          description: Echo of the requested begin gas day, M/D/YYYY.
-        endDate:
-          type: string
-          description: Echo of the requested end gas day, M/D/YYYY.
+      required:
+      - message
     TransactionalReportRow:
       type: object
       description: 'Transactional reporting row (firm / interruptible / capacity release) per FERC 18 CFR 284.13(b): contract, shipper, rate and location detail.'
@@ -261,14 +255,20 @@ components:
           type: string
         locQTI:
           type: integer
-    Error:
+    ReportEnvelope:
       type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      description: Common envelope returned by the dated report endpoints. `report` carries the rows; `beginDate`/`endDate` echo the requested gas-day range in M/D/YYYY.
       properties:
-        message:
+        report:
+          type: array
+          items:
+            type: object
+        beginDate:
           type: string
-      required:
-      - message
+          description: Echo of the requested begin gas day, M/D/YYYY.
+        endDate:
+          type: string
+          description: Echo of the requested end gas day, M/D/YYYY.
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/

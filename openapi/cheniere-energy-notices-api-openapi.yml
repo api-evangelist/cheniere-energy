@@ -252,6 +252,14 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
+      properties:
+        message:
+          type: string
+      required:
+      - message
     NoticeSummary:
       type: object
       description: Summary of an active operational notice (critical / non-critical).
@@ -269,14 +277,6 @@ components:
           type: integer
         description:
           type: string
-    Error:
-      type: object
-      description: 'ASP.NET Web API error envelope. Not RFC 9457 problem+json: a single `message` string, no `type`, `title` or `status` member.'
-      properties:
-        message:
-          type: string
-      required:
-      - message
 externalDocs:
   description: LNG Connection informational postings site
   url: https://lngconnection.cheniere.com/
