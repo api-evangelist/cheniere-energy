@@ -1,4 +1,4 @@
-# Cheniere Energy (cheniere-energy)
+# Cheniere Energy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,131 +66,131 @@
 
 Cheniere Energy, Inc. is an international energy company headquartered in Houston, Texas, and the leading producer and exporter of liquefied natural gas (LNG) in the United States, operating the Sabine Pass terminal in Louisiana and the Corpus Christi terminal in Texas. It also owns two FERC-regulated interstate natural gas pipelines, Cheniere Creole Trail Pipeline and Cheniere Corpus Christi Pipeline. Cheniere runs no developer program and publishes no API documentation, yet it does operate one public, unauthenticated JSON API: the LNG Connection informational-postings API at lngconnectionapi.cheniere.com, serving the pipeline capacity, transactional reporting, Index of Customers, gas quality, imbalance and notice postings that FERC 18 CFR 284.13 requires, in the NAESB Wholesale Gas Quadrant data model.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cheniere-energy/refs/heads/main/apis.yml)
+**Areas:** Corpus Christi · Energy · Export · FERC · Houston · Informational Postings · LNG · Liquefaction · NAESB · Natural Gas · Open Data · Pipelines
 
-## Scope
+## Cheniere Energy on APIs.io
 
-- **Type:** Index
-- **Position:** Producing
-- **Access:** 3rd-Party
+Everything profiled for Cheniere Energy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cheniere-energy/](https://apis.io/providers/cheniere-energy/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (11)
 
-- Corpus Christi
-- Energy
-- Export
-- FERC
-- Houston
-- Informational Postings
-- LNG
-- Liquefaction
-- NAESB
-- Natural Gas
-- Open Data
-- Pipelines
-- Regasification
-- Sabine Pass
-- Texas
+- [Cheniere Energy Website](https://apis.io/apis/cheniere-energy/website/) — Cheniere Energy's corporate website. It carries no developer documentation and no API reference; supplier and contractor integration is handled through a…
+- [Cheniere Energy Capacity API](https://apis.io/apis/cheniere-energy/cheniere-energy-capacity-api/) — Operationally available and unsubscribed capacity postings by nomination cycle.
+- [Cheniere Energy Discovery API](https://apis.io/apis/cheniere-energy/cheniere-energy-discovery-api/) — The posting page tree and the TSPs served.
+- [Cheniere Energy Documents API](https://apis.io/apis/cheniere-energy/cheniere-energy-documents-api/) — Documents attached to posting pages.
+- [Cheniere Energy Gas Quality API](https://apis.io/apis/cheniere-energy/cheniere-energy-gas-quality-api/) — Daily, comingled and mainline gas-quality analyses.
+- [Cheniere Energy Imbalances API](https://apis.io/apis/cheniere-energy/cheniere-energy-imbalances-api/) — Posted imbalance reports.
+- [Cheniere Energy Index of Customers API](https://apis.io/apis/cheniere-energy/cheniere-energy-index-of-customers-api/) — Quarterly Index of Customers postings.
+- [Cheniere Energy Notices API](https://apis.io/apis/cheniere-energy/cheniere-energy-notices-api/) — Critical and non-critical operational notices.
+- [Cheniere Energy Reference Data API](https://apis.io/apis/cheniere-energy/cheniere-energy-reference-data-api/) — Locations, stations, contacts, legends and footers.
+- [Cheniere Energy Telemetry API](https://apis.io/apis/cheniere-energy/cheniere-energy-telemetry-api/) — Client-side error reporting sink.
+- [Cheniere Energy Transactional Reporting API](https://apis.io/apis/cheniere-energy/cheniere-energy-transactional-reporting-api/) — Firm, interruptible and capacity-release transactional reporting.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-21
-- **Modified:** 2026-09-06
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### Cheniere Energy Website
+Model Context Protocol servers that expose the API to agents.
 
-Cheniere Energy's corporate website. It carries no developer documentation and no API reference; supplier and contractor integration is handled through a dedicated portal. The company's one public API is described in the separate LNG Connection entry.
+- [cheniere-energy-mcp.yml](https://apis.io/servers/cheniere-energy/cheniere-energy-mcp-yml/)
 
-- **Human URL:** [https://www.cheniere.com](https://www.cheniere.com)
-- **Base URL:** `https://www.cheniere.com`
+#### Collections (1)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Energy
-- Export
-- LNG
-- Natural Gas
+- [Moved to /providers/cheniere-energy/](https://apis.io/collections/cheniere-energy/open-cheniere/)
 
-#### Properties
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cheniere Energy Lng Connection Overlay](https://apis.io/overlays/cheniere-energy/cheniere-energy-lng-connection-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cheniere Energy Authentication](https://apis.io/security/cheniere-energy/cheniere-energy-authentication/)
+- [Cheniere Energy Domain Security](https://apis.io/security/cheniere-energy/cheniere-energy-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Cheniere Energy Plans Pricing](https://apis.io/plans/cheniere-energy/cheniere-energy-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Cheniere Energy Rate Limits](https://apis.io/rate-limits/cheniere-energy/cheniere-energy-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Cheniere Energy Finops](https://apis.io/finops/cheniere-energy/cheniere-energy-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.cheniere.com)
-- [Supplier Portal](https://www.cheniere.com/about/resources/suppliers-and-contractors)
-- [Operations](https://www.cheniere.com/about/where-we-work)
-
-### Cheniere LNG Connection Pipeline Informational Postings API
-
-The public, unauthenticated JSON API behind Cheniere's LNG Connection site, which publishes the FERC-mandated informational postings for Cheniere Creole Trail Pipeline, L.P. (tspNo 200) and Cheniere Corpus Christi Pipeline, L.P. (tspNo 400). It serves operationally available and unsubscribed capacity by NAESB nomination cycle, firm and interruptible transactional reporting, the quarterly Index of Customers, daily and comingled gas quality, posted imbalances, operational notices, and the location, station and contact reference data. 35 operations, all data operations read-only, no credential of any kind. Cheniere publishes no OpenAPI and no documentation for it; the specification in this repository was derived by API Evangelist from the provider's own client bundle plus live anonymous probes on 2026-09-06 and is labelled as derived.
-
-- **Human URL:** [https://lngconnection.cheniere.com](https://lngconnection.cheniere.com)
-- **Base URL:** `https://lngconnectionapi.cheniere.com`
-
-#### Tags
-
-- Natural Gas
-- Pipelines
-- FERC
-- NAESB
-- Capacity
-- Gas Quality
-- Informational Postings
-- Open Data
-- Energy
-
-#### Properties
-
-- [OpenAPI](openapi/cheniere-energy-lng-connection.yml)
-- [Overlay](overlays/cheniere-energy-lng-connection-overlay.yaml)
-- [MCP Server](mcp/cheniere-energy-mcp.yml)
-- [Tool Crosswalk](mcp/cheniere-energy-tool-crosswalk.yml)
-- [Authentication](authentication/cheniere-energy-authentication.yml)
-- [Error Catalog](errors/cheniere-energy-problem-types.yml)
-- [Conventions](conventions/cheniere-energy-conventions.yml)
-- [Data Model](data-model/cheniere-energy-data-model.yml)
-- [Conformance](conformance/cheniere-energy-conformance.yml)
-- [Lifecycle](lifecycle/cheniere-energy-lifecycle.yml)
-- [Rate Limits](rate-limits/cheniere-energy-rate-limits.yml)
-- [Plans](plans/cheniere-energy-plans-pricing.yml)
-- [Agent Skills](skills/_index.yml)
-- [Website](https://lngconnection.cheniere.com)
-
-## Common Properties
-
-- [Domain Security](security/cheniere-energy-domain-security.yml)
-- [LinkedIn](https://www.linkedin.com/company/cheniere-energy-inc)
-- [Website](https://www.cheniere.com)
-- [Supplier Portal](https://www.cheniere.com/about/resources/suppliers-and-contractors)
-- [Investor Relations](https://www.cheniere.com/investors)
-- [Careers](https://www.cheniere.com/careers)
-- [Contact Us](https://www.cheniere.com/contact-us)
-- **Operations:** Sabine Pass LNG Terminal, Corpus Christi LNG Terminal, Cheniere Marketing, Creole Trail Pipeline, Corpus Christi Pipeline
-- **Services:** LNG Liquefaction, LNG Vessel Loading, Regasification, Natural Gas Marketing, Long-Term LNG Sales and Purchase Agreements
-- **Use Cases:** International LNG Export, Long-Term LNG Supply Contracts, Spot LNG Cargo Sales, Energy Security, Natural Gas Liquefaction Services
-- [Sustainability](https://www.cheniere.com/our-responsibility)
-- [Newsroom](https://www.cheniere.com/newsroom)
-- [Operations](https://www.cheniere.com/about/where-we-work)
-- [OpenAPI](openapi/cheniere-energy-lng-connection.yml)
-- [Overlay](overlays/cheniere-energy-lng-connection-overlay.yaml)
-- [MCP Server](mcp/cheniere-energy-mcp.yml)
-- [Tool Crosswalk](mcp/cheniere-energy-tool-crosswalk.yml)
-- [Authentication](authentication/cheniere-energy-authentication.yml)
-- [Error Catalog](errors/cheniere-energy-problem-types.yml)
-- [Conventions](conventions/cheniere-energy-conventions.yml)
-- [Data Model](data-model/cheniere-energy-data-model.yml)
-- [Conformance](conformance/cheniere-energy-conformance.yml)
-- [Lifecycle](lifecycle/cheniere-energy-lifecycle.yml)
-- [Rate Limits](rate-limits/cheniere-energy-rate-limits.yml)
-- [Plans](plans/cheniere-energy-plans-pricing.yml)
-- [Packages](packages/cheniere-energy-packages.yml)
-- [Agent Skills](skills/_index.yml)
-- [llms.txt](llms/cheniere-energy-llms.txt)
-- [Privacy Policy](https://www.cheniere.com/about/resources/privacypolicy)
-- [Terms of Service](https://www.cheniere.com/about/resources/disclaimer)
-- [Investor Relations](https://cqpir.cheniere.com/)
 - [Support](https://www.cheniere.com/letstalk)
+- [Terms of service](https://www.cheniere.com/about/resources/disclaimer)
+- [Privacy policy](https://www.cheniere.com/about/resources/privacypolicy)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane  
-**Email:** kin@apievangelist.com
+**Kin Score 19.4** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 58.0 |
+| Contract quality | 12.6 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 18.5 |
+| Access clarity | 21.1 |
+
+**Agent readiness 24.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.5** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cheniere-energy/](https://apis.io/providers/cheniere-energy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cheniere Energy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cheniere-energy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
