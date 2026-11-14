@@ -5,6 +5,15 @@ artifacts:
   authentication/cheniere-energy-authentication.yml:
     method: unknown
     evidence: no authorship recorded
+  certification/observations-2026-11-10.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
+    method: unknown
+    evidence: no authorship recorded
   conformance/cheniere-energy-conformance.yml:
     method: unknown
     evidence: no authorship recorded
@@ -29,10 +38,13 @@ artifacts:
   heartbeat/2026-11-06.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -96,6 +108,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/cheniere-energy-lifecycle.yml:
@@ -172,6 +187,9 @@ artifacts:
     evidence: declared in the artifact
   skills/cheniere-energy-pull-transactional-reporting.md:
     method: generated
+    evidence: declared in the artifact
+  terms/cheniere-energy-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   well-known/cheniere-energy-well-known.yml:
     method: unknown
